@@ -3,9 +3,7 @@ package com.qlassalle.elementsrecorder.controller;
 import com.qlassalle.elementsrecorder.model.Article;
 import com.qlassalle.elementsrecorder.service.ArticleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,7 +15,22 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @GetMapping("/")
-    public List<Article> getAll() {
-        return articleService.getAll();
+    public List<Article> findAll() {
+        return articleService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Article get(@PathVariable Long id) {
+        return articleService.findById(id);
+    }
+
+    @PostMapping("/")
+    public Article create(@RequestBody Article article) {
+        return articleService.create(article);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        articleService.delete(id);
     }
 }

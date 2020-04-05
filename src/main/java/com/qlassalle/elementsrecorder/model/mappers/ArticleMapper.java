@@ -19,4 +19,12 @@ public class ArticleMapper {
                       .updatedAt(articleEntity.getUpdatedAt())
                       .build();
     }
+
+    public static ArticleEntity map(Article article) {
+        return ArticleEntity.builder()
+                            .name(article.getName())
+                            .rating(article.getRating())
+                            .description(article.getDescription())
+                            .build();
+    }
 }
