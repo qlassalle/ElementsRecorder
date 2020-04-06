@@ -1,9 +1,6 @@
 package com.qlassalle.elementsrecorder.entities.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -12,6 +9,7 @@ import java.time.Instant;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Builder
 @Table(name = "article")
 public class ArticleEntity {
@@ -25,6 +23,8 @@ public class ArticleEntity {
     private String description;
 
     private short rating;
+
+    private String url;
 
     private Instant createdAt;
 

@@ -8,7 +8,6 @@ import java.time.Instant;
 
 @Builder
 @Getter
-@ToString
 public class Article {
 
     private Long id;
@@ -18,6 +17,8 @@ public class Article {
     private String description;
 
     private short rating;
+
+    private String url;
 
     private Instant createdAt;
     private Instant updatedAt;

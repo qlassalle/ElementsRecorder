@@ -15,6 +15,7 @@ public class ArticleMapper {
                       .description(articleEntity.getDescription())
                       .name(articleEntity.getName())
                       .rating(articleEntity.getRating())
+                      .url(articleEntity.getUrl())
                       .createdAt(articleEntity.getCreatedAt())
                       .updatedAt(articleEntity.getUpdatedAt())
                       .build();
@@ -23,8 +24,9 @@ public class ArticleMapper {
     public static ArticleEntity map(Article article) {
         return ArticleEntity.builder()
                             .name(article.getName())
-                            .rating(article.getRating())
                             .description(article.getDescription())
+                            .rating(article.getRating())
+                            .url(article.getUrl())
                             .build();
     }
 }
