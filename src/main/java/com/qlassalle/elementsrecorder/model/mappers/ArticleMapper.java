@@ -17,7 +17,6 @@ public class ArticleMapper {
                       .rating(articleEntity.getRating())
                       .url(articleEntity.getUrl())
                       .createdAt(articleEntity.getCreatedAt())
-                      .updatedAt(articleEntity.getUpdatedAt())
                       .build();
     }
 
