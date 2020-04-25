@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+
+  db:
+    build: ./src/main/resources/db
+    ports:
+      - 3306:3306
+    hostname: db
+    networks:
+      - backend
+    container_name: db
+
+  api:
+    build: .
+    ports: 
+      - 8080:8080
+    networks:
+      - backend
+    container_name: api
+    depends_on: 
+      - db
+
+networks:
+  backend:
+    driver: bridge
+    name: backend
