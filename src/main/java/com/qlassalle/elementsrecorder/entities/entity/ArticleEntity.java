@@ -28,4 +28,7 @@ public class ArticleEntity {
 
     @Column(insertable = false, updatable = false)
     private Instant createdAt;
+
+    @Column(insertable = false, updatable = false)
+    private Instant updatedAt;
 }

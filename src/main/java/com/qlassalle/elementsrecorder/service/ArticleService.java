@@ -40,4 +40,10 @@ public class ArticleService {
         articleRepository.deleteById(id);
         log.info("Deleted entity with id {}", id);
     }
+
+    public Article update(Article article) {
+        ArticleEntity entity = articleRepository.save(ArticleMapper.map(article));
+        log.info("Updated {}", article.toString());
+        return ArticleMapper.map(entity);
+    }
 }
