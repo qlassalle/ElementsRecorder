@@ -1,8 +1,10 @@
 spring:
   datasource:
-    url: jdbc:postgresql://192.168.1.28:5432/elements_recorder
-    username: elements_recorder_app
+    url: jdbc:postgresql://192.168.1.28:5432/dev_elements_recorder
+    username: dev_elements_recorder_app
     password: root
+    hikari:
+      initializationFailTimeout: 3000
 
 logging:
   level:
