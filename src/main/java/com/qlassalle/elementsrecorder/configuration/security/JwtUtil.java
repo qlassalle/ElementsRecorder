@@ -3,9 +3,12 @@ package com.qlassalle.elementsrecorder.configuration.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.function.Function;
@@ -13,8 +16,10 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    // TODO: 09/05/2020 Change this
-    private static final String SECRET_KEY = "secret";
+    @Value("${app.jwt.secret}")
+    private String secretKey;
+    @Value("${app.jwt.validity}")
+    private long validityInMinutes;
 
     public String generateToken(UserDetails userDetails) {
         var claims = new HashMap<String, Object>();
@@ -26,8 +31,8 @@ public class JwtUtil {
                    .setClaims(claims)
                    .setSubject(subject)
                    .setIssuedAt(new Date(System.currentTimeMillis()))
-                   .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                   .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                   .setExpiration(Date.from(Instant.now().plus(validityInMinutes, ChronoUnit.MINUTES)))
+                   .signWith(SignatureAlgorithm.HS256, secretKey)
                    .compact();
     }
 
@@ -38,7 +43,7 @@ public class JwtUtil {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
-                   .setSigningKey(SECRET_KEY)
+                   .setSigningKey(secretKey)
                    .parseClaimsJws(token)
                    .getBody();
     }

@@ -5,3 +5,10 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD}
     hikari:
       initializationFailTimeout: 5000
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    validity: 1440

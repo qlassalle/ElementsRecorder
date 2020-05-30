@@ -6,6 +6,11 @@ spring:
     hikari:
       initializationFailTimeout: 3000
 
+app:
+  jwt:
+    secret: my_dev_secret
+    validity: 1440
+
 logging:
   level:
     org:
