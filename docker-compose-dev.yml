@@ -1,0 +1,8 @@
+version: '3.7'
+
+services:
+  db:
+    build: src/main/resources/db/
+    ports:
+      - 5432:5432
+    container_name: dev_db

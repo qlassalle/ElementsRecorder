@@ -1,5 +1,4 @@
-FROM 		mysql
-ENV 		MYSQL_DATABASE elements_recorder
-ENV		    MYSQL_ROOT_PASSWORD=root
-COPY		./database.sql	/docker-entrypoint-initdb.d/
-
+FROM 		postgres
+ENV 		POSTGRES_DB dev_elements_recorder
+ENV 		POSTGRES_USER dev_elements_recorder_app
+ENV		    POSTGRES_PASSWORD=root

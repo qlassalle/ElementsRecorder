@@ -1,7 +1,8 @@
 # Features to add
 ...
 # Bugs to fix
-* Timestamps for dates aren't set on adding and updating 
+* Change postgresql port on Pi 
+* Timestamps for dates aren't set on adding and updating
 
 # Things that I'd like to have on this project
 * CI/CD including
