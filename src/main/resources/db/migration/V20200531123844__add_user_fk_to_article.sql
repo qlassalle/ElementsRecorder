@@ -1,0 +1,2 @@
+ALTER TABLE article
+ADD COLUMN user_id INT NOT NULL;

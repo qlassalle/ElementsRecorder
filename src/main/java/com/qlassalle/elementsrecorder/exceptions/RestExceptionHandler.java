@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 @RestControllerAdvice
 @Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -21,6 +23,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = EmailExistsException.class)
     public ResponseEntity<Object> emailExistsException(EmailExistsException exception) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(value = UnauthorizedException.class)
+    public ResponseEntity<ApiResponse> unauthorizedException(UnauthorizedException exception) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(value = NoSuchElementException.class)
+    public ResponseEntity<ApiResponse> resourceNotFoundException(NoSuchElementException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(value = Exception.class)

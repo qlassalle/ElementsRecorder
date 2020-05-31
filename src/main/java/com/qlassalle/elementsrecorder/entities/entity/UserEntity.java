@@ -1,13 +1,9 @@
 package com.qlassalle.elementsrecorder.entities.entity;
 
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.UUID;
 
 @Entity
@@ -17,7 +13,7 @@ import java.util.UUID;
 @ToString
 @Builder
 @Table(name = "user_app")
-public class UserEntity implements UserDetails {
+public class UserEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -36,32 +32,21 @@ public class UserEntity implements UserDetails {
     private Instant updatedAt;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof UserEntity)) {
+            return false;
+        }
+
+        UserEntity that = (UserEntity) o;
+
+        return id.equals(that.id);
     }
 
     @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public int hashCode() {
+        return id.hashCode();
     }
 }

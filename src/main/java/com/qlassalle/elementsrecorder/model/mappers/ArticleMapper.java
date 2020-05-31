@@ -1,6 +1,7 @@
 package com.qlassalle.elementsrecorder.model.mappers;
 
 import com.qlassalle.elementsrecorder.entities.entity.ArticleEntity;
+import com.qlassalle.elementsrecorder.entities.entity.UserEntity;
 import com.qlassalle.elementsrecorder.model.Article;
 
 public class ArticleMapper {
@@ -21,7 +22,7 @@ public class ArticleMapper {
                       .build();
     }
 
-    public static ArticleEntity map(Article article) {
+    public static ArticleEntity map(Article article, UserEntity user) {
         var builder = ArticleEntity.builder();
         if (article.getId() != null) {
             builder.id(article.getId());
@@ -30,6 +31,7 @@ public class ArticleMapper {
                       .description(article.getDescription())
                       .rating(article.getRating())
                       .url(article.getUrl())
+                      .user(user)
                       .build();
     }
 }
