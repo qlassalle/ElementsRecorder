@@ -19,6 +19,6 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         UserEntity user = userRepository.findByEmail(username)
                                         .orElseThrow(() -> new UsernameNotFoundException("No user exist with this username"));
-        return new CustomUserDetails(user.getId(), user.getEmail(), user.getPassword());
+        return new CustomUserDetails(user);
     }
 }

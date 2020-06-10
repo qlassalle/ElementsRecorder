@@ -18,26 +18,26 @@ public class ArticleController {
 
     @GetMapping("/")
     public List<Article> findAll(@AuthenticationPrincipal CustomUserDetails user) {
-        return articleService.findAll(user.getId());
+        return articleService.findAll(user.getUser());
     }
 
     @GetMapping("/{id}")
     public Article get(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails user) {
-        return articleService.findByIdAndUser(id, user.getId());
+        return articleService.findById(id, user.getUser());
     }
 
     @PostMapping("/")
     public Article create(@RequestBody Article article, @AuthenticationPrincipal CustomUserDetails user) {
-        return articleService.create(article, user.getId());
+        return articleService.create(article, user.getUser());
     }
 
     @PutMapping("/")
     public Article update(@RequestBody Article article, @AuthenticationPrincipal CustomUserDetails user) {
-        return articleService.update(article, user.getId());
+        return articleService.update(article, user.getUser());
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails user) {
-        articleService.delete(id, user.getId());
+        articleService.delete(id, user.getUser());
     }
 }

@@ -19,18 +19,15 @@ import java.util.stream.Collectors;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
-    private final AuthenticatedUserService authenticatedUserServiceService;
 
-    public List<Article> findAll(Long userId) {
-        UserEntity user = authenticatedUserServiceService.getUser(userId);
+    public List<Article> findAll(UserEntity user) {
         return articleRepository.findAllByUser(user)
                                 .stream()
                                 .map(ArticleMapper::map)
                                 .collect(Collectors.toList());
     }
 
-    public Article findByIdAndUser(Long id, Long userId) {
-        UserEntity user = authenticatedUserServiceService.getUser(userId);
+    public Article findById(Long id, UserEntity user) {
         ArticleEntity article = findByIdAndUser(id, user);
         return ArticleMapper.map(article);
     }
@@ -40,22 +37,20 @@ public class ArticleService {
                                 .orElseThrow(() -> new NoSuchElementException("No such article with this id"));
     }
 
-    public Article create(Article article, Long userId) {
-        ArticleEntity articleEntity = ArticleMapper.map(article, authenticatedUserServiceService.getUser(userId));
+    public Article create(Article article, UserEntity user) {
+        ArticleEntity articleEntity = ArticleMapper.map(article, user);
         ArticleEntity savedEntity = articleRepository.save(articleEntity);
         log.info("Saved {}", articleEntity.toString());
         return ArticleMapper.map(savedEntity);
     }
 
-    public void delete(Long id, Long userId) {
-        UserEntity user = authenticatedUserServiceService.getUser(userId);
+    public void delete(Long id, UserEntity user) {
         ArticleEntity article = findByIdAndUser(id, user);
         articleRepository.delete(article);
         log.info("Deleted entity with id {}", id);
     }
 
-    public Article update(Article article, Long userId) {
-        UserEntity user = authenticatedUserServiceService.getUser(userId);
+    public Article update(Article article, UserEntity user) {
         findByIdAndUser(article.getId(), user);
         ArticleEntity entity = articleRepository.save(ArticleMapper.map(article, user));
         log.info("Updated {}", article.toString());
