@@ -1,6 +1,7 @@
 package com.qlassalle.elementsrecorder.controller;
 
 import com.qlassalle.elementsrecorder.configuration.security.JwtUtil;
+import com.qlassalle.elementsrecorder.exceptions.RegistrationException;
 import com.qlassalle.elementsrecorder.model.input.AuthenticationRequest;
 import com.qlassalle.elementsrecorder.model.input.RegistrationRequest;
 import com.qlassalle.elementsrecorder.model.output.AuthenticationResponse;
@@ -35,7 +36,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public AuthenticationResponse register(@RequestBody RegistrationRequest request) {
         if (!request.validate()) {
-            throw new RuntimeException("Please provide a non-empty password and ensure it matches the confirm " +
+            throw new RegistrationException("Please provide a non-empty password and ensure it matches the confirm " +
                                                "password");
         }
         // TODO: 30/05/2020 add basic validation here

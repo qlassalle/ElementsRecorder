@@ -16,12 +16,12 @@ import java.util.NoSuchElementException;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = BadCredentialsException.class)
-    public ResponseEntity<Object> badCredentials(BadCredentialsException exception) {
+    public ResponseEntity<ApiResponse> badCredentials(BadCredentialsException exception) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse("Wrong credentials"));
     }
 
     @ExceptionHandler(value = EmailExistsException.class)
-    public ResponseEntity<Object> emailExistsException(EmailExistsException exception) {
+    public ResponseEntity<ApiResponse> emailExistsException(EmailExistsException exception) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse(exception.getMessage()));
     }
 
@@ -36,8 +36,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<Object> handleUnexpectedException(Exception exception) {
+    public ResponseEntity<ApiResponse> handleUnexpectedException(Exception exception) {
         logger.error("Unhandled exception raised", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Unexpected error"));
+    }
+
+    @ExceptionHandler(value = RegistrationException.class)
+    public ResponseEntity<ApiResponse> inputException(RegistrationException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(exception.getMessage()));
     }
 }

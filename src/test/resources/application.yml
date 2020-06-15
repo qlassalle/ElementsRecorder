@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:54320/dev_elements_recorder
+    username: dev_elements_recorder_app
+    password: root
+    hikari:
+      initializationFailTimeout: 3000
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+app:
+  jwt:
+    secret: my_test_secret
+    validity: 1440
