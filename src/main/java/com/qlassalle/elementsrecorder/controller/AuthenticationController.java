@@ -1,7 +1,7 @@
 package com.qlassalle.elementsrecorder.controller;
 
 import com.qlassalle.elementsrecorder.configuration.security.JwtUtil;
-import com.qlassalle.elementsrecorder.exceptions.RegistrationException;
+import com.qlassalle.elementsrecorder.exceptions.InvalidPasswordException;
 import com.qlassalle.elementsrecorder.model.input.AuthenticationRequest;
 import com.qlassalle.elementsrecorder.model.input.RegistrationRequest;
 import com.qlassalle.elementsrecorder.model.output.AuthenticationResponse;
@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/authenticate")
@@ -34,12 +36,11 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public AuthenticationResponse register(@RequestBody RegistrationRequest request) {
+    public AuthenticationResponse register(@RequestBody @Valid RegistrationRequest request) {
         if (!request.validate()) {
-            throw new RegistrationException("Please provide a non-empty password and ensure it matches the confirm " +
+            throw new InvalidPasswordException("Please provide a non-empty password and ensure it matches the confirm " +
                                                "password");
         }
-        // TODO: 30/05/2020 add basic validation here
         service.register(request.getEmail(), request.getPassword());
         return new AuthenticationResponse(jwtUtil.generateToken(userDetailsService.loadUserByUsername(request.getEmail())));
     }

@@ -6,7 +6,7 @@ import javax.validation.constraints.Email;
 
 @Getter
 public class RegistrationRequest {
-    @Email
+    @Email(message = "The email '${validatedValue}' is not correctly formatted")
     private String email;
     private String password;
     private String confirmPassword;

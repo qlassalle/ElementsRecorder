@@ -42,6 +42,15 @@ class AuthenticationControllerTest extends IntegrationTestBase {
                                          .isNotEmpty();
     }
 
+    @DisplayName("Should fail when password doesn't match policy")
+    @Test
+    public void shouldFailWhenPasswordDoesntMatchPolicy() {
+        String inputFile = INPUT_BASE_PATH + "register_invalid_password.json";
+        postJson(REGISTER_URL, inputFile).is4xxClientError()
+                                         .expectBody()
+                                         .json(getJsonAsString(OUTPUT_BASE_PATH + "register_invalid_password.json"));
+    }
+
     @DisplayName("Should fail when client is already registered")
     @Test
     public void shouldFailWhenClientIsAlreadyRegistered() {
@@ -58,5 +67,14 @@ class AuthenticationControllerTest extends IntegrationTestBase {
         postJson(REGISTER_URL, inputFile).is4xxClientError()
                                          .expectBody()
                                          .json(getJsonAsString(OUTPUT_BASE_PATH + "mismatch_password.json"));
+    }
+
+    @DisplayName("Should fail when user doesn't provide a correct email address")
+    @Test
+    public void shouldFailWhenUserDoesntProvideCorrectEmail() {
+        String inputFile = INPUT_BASE_PATH + "register_incorrect_email.json";
+        postJson(REGISTER_URL, inputFile).is4xxClientError()
+                                         .expectBody()
+                                         .json(getJsonAsString(OUTPUT_BASE_PATH + "register_incorrect_email.json"));
     }
 }
