@@ -11,7 +11,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @ToString
 @Builder
-@Table(name = "article")
+@Table(schema = "elements_recorder_schema", name = "article")
 public class ArticleEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
