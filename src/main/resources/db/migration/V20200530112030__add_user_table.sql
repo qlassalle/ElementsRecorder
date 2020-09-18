@@ -1,4 +1,4 @@
-create table user_app
+create table elements_recorder_schema.user_app
 (
     id SERIAL,
     user_uuid varchar(36) not null,
@@ -9,5 +9,5 @@ create table user_app
 );
 
 CREATE TRIGGER update_updated_at BEFORE UPDATE
-ON user_app FOR EACH ROW EXECUTE PROCEDURE
+ON elements_recorder_schema.user_app FOR EACH ROW EXECUTE PROCEDURE
 update_updated_at_column();

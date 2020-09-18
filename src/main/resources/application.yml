@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:postgresql://82.124.30.70:5432/elements_recorder
-    username: prod_elements_recorder_app
+    url: jdbc:postgresql://${SPRING_DATASOURCE_IP}:${SPRING_DATASOURCE_PORT}/${SPRING_DATASOURCE_DB_NAME}
+    username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     hikari:
       initializationFailTimeout: 5000

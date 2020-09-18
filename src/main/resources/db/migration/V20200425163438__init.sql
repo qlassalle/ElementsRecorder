@@ -1,4 +1,6 @@
-create table article
+create schema elements_recorder_schema;
+
+create table elements_recorder_schema.article
 (
     id SERIAL,
     name varchar(50) not null,

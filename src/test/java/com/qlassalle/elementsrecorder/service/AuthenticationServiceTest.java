@@ -28,7 +28,7 @@ class AuthenticationServiceTest {
 
     @ParameterizedTest
     @MethodSource("passwordTestCases")
-    public void shouldVerifyPassword(PasswordTestCase testCase) {
+    void shouldVerifyPassword(PasswordTestCase testCase) {
         assertEquals(testCase.expectedResult, service.validatePassword(testCase.password));
     }
 
