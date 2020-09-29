@@ -8,7 +8,7 @@ spring:
 
 app:
   jwt:
-    secret: my_dev_secret
+    secret: mydevsecret
     validity: 1440
 
 logging:

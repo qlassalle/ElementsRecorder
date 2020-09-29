@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  db:
+    build: src/main/resources/db/
+    ports:
+      - 5432:5432
+    container_name: dev_db
+    networks: 
+      - local_back_api_and_db
+
+  api:
+    build: .
+    ports:
+      - 8080:8080
+    networks:
+      - local_back_api_and_db
+    container_name: api
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATASOURCE_USERNAME=dev_elements_recorder_app
+      - SPRING_DATASOURCE_IP=db
+      - SPRING_DATASOURCE_PORT=5432
+      - SPRING_DATASOURCE_DB_NAME=dev_elements_recorder
+      - JWT_SECRET=jwt_secret
+
+networks:
+  local_back_api_and_db:
+    driver: bridge
+    name: local_back_api_and_db

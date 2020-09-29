@@ -10,16 +10,14 @@ import com.qlassalle.elementsrecorder.service.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/authenticate")
 @RequiredArgsConstructor
+//@CrossOrigin(origins = "*")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
@@ -29,9 +27,9 @@ public class AuthenticationController {
 
     @PostMapping("/")
     public AuthenticationResponse authenticate(@RequestBody AuthenticationRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(),
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),
                                                                                    request.getPassword()));
-        var user = userDetailsService.loadUserByUsername(request.getUsername());
+        var user = userDetailsService.loadUserByUsername(request.getEmail());
         return new AuthenticationResponse(jwtUtil.generateToken(user));
     }
 
