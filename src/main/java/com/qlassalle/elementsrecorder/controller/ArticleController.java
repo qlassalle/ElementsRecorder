@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/article")
 @RequiredArgsConstructor
-//@CrossOrigin(origins = "*")
 public class ArticleController {
 
     private final ArticleService articleService;
@@ -32,9 +31,10 @@ public class ArticleController {
         return articleService.create(article, user.getUser());
     }
 
-    @PutMapping("/")
-    public Article update(@RequestBody Article article, @AuthenticationPrincipal CustomUserDetails user) {
-        return articleService.update(article, user.getUser());
+    @PutMapping("/{id}")
+    public Article update(@PathVariable Long id, @RequestBody Article article,
+                          @AuthenticationPrincipal CustomUserDetails user) {
+        return articleService.update(id, article, user.getUser());
     }
 
     @DeleteMapping("/{id}")

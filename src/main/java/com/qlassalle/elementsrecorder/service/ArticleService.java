@@ -50,8 +50,9 @@ public class ArticleService {
         log.info("Deleted entity with id {}", id);
     }
 
-    public Article update(Article article, UserEntity user) {
-        findByIdAndUser(article.getId(), user);
+    public Article update(Long id, Article article, UserEntity user) {
+        findByIdAndUser(id, user);
+        article.setId(id);
         ArticleEntity entity = articleRepository.save(ArticleMapper.map(article, user));
         log.info("Updated {}", article.toString());
         return ArticleMapper.map(entity);

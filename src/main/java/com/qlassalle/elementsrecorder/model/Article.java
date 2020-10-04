@@ -2,7 +2,7 @@ package com.qlassalle.elementsrecorder.model;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.Setter;
 
 import java.time.Instant;
 
@@ -10,16 +10,17 @@ import java.time.Instant;
 @Getter
 public class Article {
 
+    @Setter
     private Long id;
 
-    private String name;
+    private final String name;
 
-    private String description;
+    private final String description;
 
-    private short rating;
+    private final short rating;
 
-    private String url;
+    private final String url;
 
-    private Instant createdAt;
-    private Instant updatedAt;
+    private final Instant createdAt;
+    private final Instant updatedAt;
 }
