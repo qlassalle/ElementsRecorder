@@ -42,7 +42,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = BadCredentialsException.class)
     public ResponseEntity<ApiResponse> badCredentials(BadCredentialsException exception) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse("Wrong credentials"));
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse("The provided password isn't correct"));
     }
 
     @ExceptionHandler(value = UnauthorizedException.class)

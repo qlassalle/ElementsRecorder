@@ -1,4 +1,4 @@
-create schema elements_recorder_schema;
+create schema if not exists elements_recorder_schema;
 
 create table elements_recorder_schema.article
 (
