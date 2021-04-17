@@ -1,9 +1,9 @@
 package com.qlassalle.elementsrecorder.service;
 
-import com.qlassalle.elementsrecorder.entities.entity.UserEntity;
-import com.qlassalle.elementsrecorder.entities.repository.UserRepository;
-import com.qlassalle.elementsrecorder.exceptions.EmailExistsException;
-import com.qlassalle.elementsrecorder.exceptions.InvalidPasswordException;
+import com.qlassalle.elementsrecorder.adapters.entities.entity.UserEntity;
+import com.qlassalle.elementsrecorder.adapters.entities.repository.UserRepository;
+import com.qlassalle.elementsrecorder.domain.exceptions.EmailExistsException;
+import com.qlassalle.elementsrecorder.domain.exceptions.InvalidPasswordException;
 import lombok.RequiredArgsConstructor;
 import org.passay.*;
 import org.springframework.security.crypto.password.PasswordEncoder;

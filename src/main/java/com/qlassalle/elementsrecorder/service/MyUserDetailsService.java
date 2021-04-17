@@ -1,8 +1,8 @@
 package com.qlassalle.elementsrecorder.service;
 
-import com.qlassalle.elementsrecorder.entities.entity.UserEntity;
-import com.qlassalle.elementsrecorder.entities.repository.UserRepository;
-import com.qlassalle.elementsrecorder.model.CustomUserDetails;
+import com.qlassalle.elementsrecorder.adapters.entities.entity.UserEntity;
+import com.qlassalle.elementsrecorder.adapters.entities.repository.UserRepository;
+import com.qlassalle.elementsrecorder.domain.model.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

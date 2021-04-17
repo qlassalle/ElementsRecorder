@@ -1,6 +1,6 @@
 package com.qlassalle.elementsrecorder.service;
 
-import com.qlassalle.elementsrecorder.entities.repository.UserRepository;
+import com.qlassalle.elementsrecorder.adapters.entities.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;

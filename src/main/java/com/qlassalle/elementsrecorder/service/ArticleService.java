@@ -1,10 +1,10 @@
 package com.qlassalle.elementsrecorder.service;
 
-import com.qlassalle.elementsrecorder.entities.entity.ArticleEntity;
-import com.qlassalle.elementsrecorder.entities.entity.UserEntity;
-import com.qlassalle.elementsrecorder.entities.repository.ArticleRepository;
-import com.qlassalle.elementsrecorder.model.Article;
-import com.qlassalle.elementsrecorder.model.mappers.ArticleMapper;
+import com.qlassalle.elementsrecorder.adapters.entities.entity.ArticleEntity;
+import com.qlassalle.elementsrecorder.adapters.entities.entity.UserEntity;
+import com.qlassalle.elementsrecorder.adapters.entities.repository.ArticleRepository;
+import com.qlassalle.elementsrecorder.domain.model.Article;
+import com.qlassalle.elementsrecorder.adapters.entities.mappers.ArticleMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
