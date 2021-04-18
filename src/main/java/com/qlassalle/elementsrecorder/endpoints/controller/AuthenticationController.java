@@ -1,10 +1,11 @@
 package com.qlassalle.elementsrecorder.endpoints.controller;
 
-import com.qlassalle.elementsrecorder.infra.security.JwtUtil;
 import com.qlassalle.elementsrecorder.domain.exceptions.InvalidPasswordException;
+import com.qlassalle.elementsrecorder.domain.model.User;
 import com.qlassalle.elementsrecorder.domain.model.input.AuthenticationRequest;
 import com.qlassalle.elementsrecorder.domain.model.input.RegistrationRequest;
 import com.qlassalle.elementsrecorder.domain.model.output.AuthenticationResponse;
+import com.qlassalle.elementsrecorder.infra.security.JwtUtil;
 import com.qlassalle.elementsrecorder.service.AuthenticationService;
 import com.qlassalle.elementsrecorder.service.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class AuthenticationController {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),
                                                                                    request.getPassword()));
         var user = userDetailsService.loadUserByUsername(request.getEmail());
-        return new AuthenticationResponse(jwtUtil.generateToken(user));
+        return new AuthenticationResponse(jwtUtil.generateToken(user.getUsername()));
     }
 
     @PostMapping("/register")
@@ -41,7 +42,7 @@ public class AuthenticationController {
             throw new InvalidPasswordException("Please provide a non-empty password and ensure it matches the confirm " +
                                                "password");
         }
-        service.register(request.getEmail(), request.getPassword());
-        return new AuthenticationResponse(jwtUtil.generateToken(userDetailsService.loadUserByUsername(request.getEmail())));
+        User user = service.register(request.getEmail(), request.getPassword());
+        return new AuthenticationResponse(jwtUtil.generateToken(user.getEmail()));
     }
 }

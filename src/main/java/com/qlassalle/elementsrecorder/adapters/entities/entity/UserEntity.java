@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -14,21 +15,11 @@ import java.util.UUID;
 @Builder
 @Table(schema = "elements_recorder_schema", name = "user_app")
 public class UserEntity {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long id;
-
-    private UUID userUuid;
-
+    private UUID id;
     private String email;
-
     private String password;
-
-    @Column(insertable = false, updatable = false)
     private Instant createdAt;
-
-    @Column(insertable = false, updatable = false)
     private Instant updatedAt;
 
     @Override
@@ -36,17 +27,15 @@ public class UserEntity {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof UserEntity)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         UserEntity that = (UserEntity) o;
-
-        return id.equals(that.id);
+        return id.equals(that.id) && email.equals(that.email) && createdAt.equals(that.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return Objects.hash(id, email, createdAt);
     }
 }

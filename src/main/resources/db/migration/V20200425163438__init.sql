@@ -7,5 +7,6 @@ create table elements_recorder_schema.article
     description text not null,
     rating smallint null,
     url varchar(255) not null,
-    created_at timestamp default CURRENT_TIMESTAMP not null
+    created_at timestamp default CURRENT_TIMESTAMP not null,
+    updated_at timestamp not null
 );

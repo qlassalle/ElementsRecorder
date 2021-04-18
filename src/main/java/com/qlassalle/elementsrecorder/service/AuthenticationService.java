@@ -1,9 +1,9 @@
 package com.qlassalle.elementsrecorder.service;
 
-import com.qlassalle.elementsrecorder.adapters.entities.entity.UserEntity;
-import com.qlassalle.elementsrecorder.adapters.entities.repository.UserRepository;
 import com.qlassalle.elementsrecorder.domain.exceptions.EmailExistsException;
 import com.qlassalle.elementsrecorder.domain.exceptions.InvalidPasswordException;
+import com.qlassalle.elementsrecorder.domain.model.User;
+import com.qlassalle.elementsrecorder.domain.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.passay.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +18,13 @@ public class AuthenticationService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    public void register(String email, String password) {
+    public User register(String email, String password) {
+        checkUserCanRegister(email, password);
+        User user = new User(UUID.randomUUID(), email, passwordEncoder.encode(password));
+        return repository.save(user);
+    }
+
+    private void checkUserCanRegister(String email, String password) {
         if (repository.findByEmail(email).isPresent()) {
             throw new EmailExistsException("There is already an existing account for the address " + email);
         }
@@ -27,15 +33,9 @@ public class AuthenticationService {
                                                        "character, 1 lowercase character, 1 digit, 1 special " +
                                                        "character and should not contain any whitespace");
         }
-        UserEntity user = UserEntity.builder()
-                                    .email(email)
-                                    .password(passwordEncoder.encode(password))
-                                    .userUuid(UUID.randomUUID())
-                                    .build();
-        repository.save(user);
     }
 
-    boolean validatePassword(String password) {
+    private boolean validatePassword(String password) {
         PasswordValidator validator = new PasswordValidator(
                 new LengthRule(8, 255),
                 new CharacterRule(EnglishCharacterData.UpperCase, 1),

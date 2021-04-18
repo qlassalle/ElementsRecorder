@@ -22,9 +22,9 @@ public class JwtUtil {
     @Value("${app.jwt.validity}")
     private long validityInMinutes;
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(String username) {
         var claims = new HashMap<String, Object>();
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, username);
     }
 
     private String createToken(HashMap<String, Object> claims, String subject) {
