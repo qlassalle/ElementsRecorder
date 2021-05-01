@@ -1,3 +1,12 @@
+# Installation
+
+You'll need JDK 16 to run this project. You can install a working JDK with sdkman. The version that has been used for development 
+is the `16.0.1.9.1-amzn`.
+
+To ensure everything's working properly, run
+* `./mvnw clean install`
+* `./mvnw test`
+
 # How to run
 
 Locally, place yourself one level above back and front and run docker-compose up

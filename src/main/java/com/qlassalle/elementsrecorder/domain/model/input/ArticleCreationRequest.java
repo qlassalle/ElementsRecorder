@@ -6,4 +6,4 @@ import javax.validation.Valid;
 
 @Valid
 public record ArticleCreationRequest(String name, String description, int rating,
-                                     @URL(message = "{article.url.invalid}") String url) {}
+                                      @URL(message = "{article.url.invalid}") String url) {}
