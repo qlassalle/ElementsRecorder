@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -14,15 +15,14 @@ import java.time.Instant;
 @Table(schema = "elements_recorder_schema", name = "article")
 public class ArticleEntity {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long id;
+    private UUID id;
 
     private String name;
 
     private String description;
 
-    private short rating;
+    private int rating;
 
     private String url;
 
@@ -41,11 +41,9 @@ public class ArticleEntity {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ArticleEntity)) {
+        if (!(o instanceof ArticleEntity that)) {
             return false;
         }
-
-        ArticleEntity that = (ArticleEntity) o;
 
         return id.equals(that.id);
     }

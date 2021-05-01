@@ -1,8 +1,11 @@
-package com.qlassalle.elementsrecorder.service;
+package com.qlassalle.elementsrecorder.unittests;
 
 import com.qlassalle.elementsrecorder.domain.exceptions.InvalidPasswordException;
+import com.qlassalle.elementsrecorder.domain.model.UUIDProvider;
 import com.qlassalle.elementsrecorder.domain.model.User;
 import com.qlassalle.elementsrecorder.domain.model.repository.UserRepository;
+import com.qlassalle.elementsrecorder.service.AuthenticationService;
+import com.qlassalle.elementsrecorder.unittests.adapters.FixedUUIDProvider;
 import com.qlassalle.elementsrecorder.unittests.adapters.UserInMemoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 class AuthenticationServiceTest {
 
     private final PasswordEncoder passwordEncoder = Mockito.mock(PasswordEncoder.class);
+    private final UUIDProvider uuidProvider = new FixedUUIDProvider();
     private UserRepository repository;
 
     private AuthenticationService service;
@@ -28,7 +32,7 @@ class AuthenticationServiceTest {
     @BeforeEach
     void setUp() {
         repository = new UserInMemoryRepository();
-        service = new AuthenticationService(repository, passwordEncoder);
+        service = new AuthenticationService(repository, passwordEncoder, uuidProvider);
     }
 
     @DisplayName("User with correct information should be able to sign up")

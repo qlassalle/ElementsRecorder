@@ -11,8 +11,6 @@ class AuthenticationControllerTest extends IntegrationTestBase {
 
     private static final String BASE_URL = "/authenticate";
     private static final String REGISTER_URL = BASE_URL + "/register";
-    private static final String INPUT_BASE_PATH = "input/";
-    private static final String OUTPUT_BASE_PATH = "output/";
 
     @DisplayName("Should authenticate user with correct credentials")
     @Test

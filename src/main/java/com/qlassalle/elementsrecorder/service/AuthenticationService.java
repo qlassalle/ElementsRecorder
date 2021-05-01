@@ -2,6 +2,7 @@ package com.qlassalle.elementsrecorder.service;
 
 import com.qlassalle.elementsrecorder.domain.exceptions.EmailExistsException;
 import com.qlassalle.elementsrecorder.domain.exceptions.InvalidPasswordException;
+import com.qlassalle.elementsrecorder.domain.model.UUIDProvider;
 import com.qlassalle.elementsrecorder.domain.model.User;
 import com.qlassalle.elementsrecorder.domain.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,18 +10,17 @@ import org.passay.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final UUIDProvider uuidProvider;
 
     public User register(String email, String password) {
         checkUserCanRegister(email, password);
-        User user = new User(UUID.randomUUID(), email, passwordEncoder.encode(password));
+        User user = new User(uuidProvider.generate(), email, passwordEncoder.encode(password));
         return repository.save(user);
     }
 

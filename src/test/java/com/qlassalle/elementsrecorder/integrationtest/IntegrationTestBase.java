@@ -16,6 +16,9 @@ public abstract class IntegrationTestBase {
     @Autowired
     private WebTestClient client;
 
+    protected static final String INPUT_BASE_PATH = "input/";
+    protected static final String OUTPUT_BASE_PATH = "output/";
+
     protected String getJsonAsString(String path) {
         try {
             return new String(ClassPathResources.classResource(this, path).getInputStream().readAllBytes(),

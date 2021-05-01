@@ -2,6 +2,7 @@ package com.qlassalle.elementsrecorder.endpoints.controller;
 
 import com.qlassalle.elementsrecorder.domain.model.Article;
 import com.qlassalle.elementsrecorder.domain.model.CustomUserDetails;
+import com.qlassalle.elementsrecorder.domain.model.input.ArticleCreationRequest;
 import com.qlassalle.elementsrecorder.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,15 +28,16 @@ public class ArticleController {
     }
 
     @PostMapping("/")
-    public Article create(@RequestBody Article article, @AuthenticationPrincipal CustomUserDetails user) {
-        return articleService.create(article, user.getUser());
+    public Article create(@RequestBody ArticleCreationRequest articleCreationRequest,
+                          @AuthenticationPrincipal CustomUserDetails user) {
+        return articleService.create(articleCreationRequest, user.getUser());
     }
 
-    @PutMapping("/{id}")
-    public Article update(@PathVariable Long id, @RequestBody Article article,
-                          @AuthenticationPrincipal CustomUserDetails user) {
-        return articleService.update(id, article, user.getUser());
-    }
+//    @PutMapping("/{id}")
+//    public Article update(@PathVariable Long id, @RequestBody Article article,
+//                          @AuthenticationPrincipal CustomUserDetails user) {
+//        return articleService.update(id, article, user.getUser());
+//    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails user) {

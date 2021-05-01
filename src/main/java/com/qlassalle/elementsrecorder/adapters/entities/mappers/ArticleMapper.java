@@ -1,16 +1,13 @@
 package com.qlassalle.elementsrecorder.adapters.entities.mappers;
 
 import com.qlassalle.elementsrecorder.adapters.entities.entity.ArticleEntity;
-import com.qlassalle.elementsrecorder.adapters.entities.entity.UserEntity;
 import com.qlassalle.elementsrecorder.domain.model.Article;
 
 public class ArticleMapper {
 
-    private ArticleMapper() {
-        throw new UnsupportedOperationException("Utility class should not be instantiated");
-    }
+    private final UserMapper userMapper = new UserMapper();
 
-    public static Article map(ArticleEntity articleEntity) {
+    public Article map(ArticleEntity articleEntity) {
         return Article.builder()
                       .id(articleEntity.getId())
                       .description(articleEntity.getDescription())
@@ -22,7 +19,7 @@ public class ArticleMapper {
                       .build();
     }
 
-    public static ArticleEntity map(Article article, UserEntity user) {
+    public ArticleEntity map(Article article) {
         var builder = ArticleEntity.builder();
         if (article.getId() != null) {
             builder.id(article.getId());
@@ -31,7 +28,7 @@ public class ArticleMapper {
                       .description(article.getDescription())
                       .rating(article.getRating())
                       .url(article.getUrl())
-                      .user(user)
+                      .user(userMapper.map(article.getUser()))
                       .build();
     }
 }
