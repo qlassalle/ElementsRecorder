@@ -3,11 +3,14 @@ package com.qlassalle.elementsrecorder.endpoints.controller;
 import com.qlassalle.elementsrecorder.domain.model.Article;
 import com.qlassalle.elementsrecorder.domain.model.CustomUserDetails;
 import com.qlassalle.elementsrecorder.domain.model.input.ArticleCreationRequest;
+import com.qlassalle.elementsrecorder.endpoints.models.ArticleDTO;
 import com.qlassalle.elementsrecorder.service.ArticleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,10 +30,12 @@ public class ArticleController {
         return articleService.findById(id, user.getUser());
     }
 
-    @PostMapping("/")
-    public Article create(@RequestBody ArticleCreationRequest articleCreationRequest,
-                          @AuthenticationPrincipal CustomUserDetails user) {
-        return articleService.create(articleCreationRequest, user.getUser());
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ArticleDTO create(@RequestBody @Valid ArticleCreationRequest articleCreationRequest,
+                             @AuthenticationPrincipal CustomUserDetails user) {
+        Article article = articleService.create(articleCreationRequest, user.getUser());
+        return new ArticleDTO(article);
     }
 
 //    @PutMapping("/{id}")

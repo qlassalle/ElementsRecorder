@@ -26,10 +26,8 @@ public class ArticleEntity {
 
     private String url;
 
-    @Column(insertable = false, updatable = false)
     private Instant createdAt;
 
-    @Column(insertable = false, updatable = false)
     private Instant updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)

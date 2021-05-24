@@ -14,6 +14,7 @@ public class ArticleMapper {
                       .name(articleEntity.getName())
                       .rating(articleEntity.getRating())
                       .url(articleEntity.getUrl())
+                      .user(userMapper.map(articleEntity.getUser()))
                       .createdAt(articleEntity.getCreatedAt())
                       .updatedAt(articleEntity.getUpdatedAt())
                       .build();
@@ -29,6 +30,8 @@ public class ArticleMapper {
                       .rating(article.getRating())
                       .url(article.getUrl())
                       .user(userMapper.map(article.getUser()))
+                      .createdAt(article.getCreatedAt())
+                      .updatedAt(article.getUpdatedAt())
                       .build();
     }
 }
