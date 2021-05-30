@@ -28,7 +28,7 @@ public class AuthenticationController {
     private final MyUserDetailsService userDetailsService;
     private final AuthenticationService service;
 
-    @PostMapping("/")
+    @PostMapping
     public AuthenticationResponse authenticate(@RequestBody AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),
                                                                                    request.getPassword()));

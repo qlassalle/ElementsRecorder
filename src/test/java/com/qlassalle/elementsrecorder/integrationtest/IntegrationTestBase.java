@@ -7,23 +7,20 @@ import com.qlassalle.elementsrecorder.integrationtest.utils.TruncateTables;
 import io.restassured.config.EncoderConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.web.reactive.server.StatusAssertions;
-import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import static com.ekino.oss.jcv.assertion.hamcrest.JsonMatchers.jsonMatcher;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 
 @TruncateTables
 public abstract class IntegrationTestBase {
-
-    @Autowired
-    private WebTestClient client;
 
     @Autowired
     JwtUtil jwtUtil;
@@ -43,11 +40,6 @@ public abstract class IntegrationTestBase {
         }
     }
 
-    protected StatusAssertions postJson(String url, String inputFile) {
-        return buildRequest(url, inputFile).exchange()
-                                           .expectStatus();
-    }
-
     protected ValidatableResponse givenAuthenticatedPostJsonRequest( String url, String username, String inputFile) {
         return given().config(RestAssuredConfig.config()
                                                .encoderConfig(EncoderConfig.encoderConfig()
@@ -60,11 +52,19 @@ public abstract class IntegrationTestBase {
                       .then();
     }
 
-    private WebTestClient.RequestHeadersSpec<?> buildRequest(String url, String inputFile) {
-        return client.post()
-                     .uri(url)
-                     .header("Content-Type", "application/json")
-                     .bodyValue(getJsonAsString(inputFile));
+    protected void postUnauthenticatedJsonAndAssertStatusCodeAndBody(String url, String filename, int statusCode) {
+        buildPostRequest()
+               .body(getJsonAsString(inputFile(filename)))
+               .post(url)
+               .then()
+               .statusCode(statusCode)
+               .body(jsonMatcher(getJsonAsString(outputFile(filename))));
+    }
+
+    protected RequestSpecification buildPostRequest() {
+        return given()
+                      .port(serverPort)
+                      .headers(Map.of("Content-Type", JSON));
     }
 
     protected String outputFile(String filename) {

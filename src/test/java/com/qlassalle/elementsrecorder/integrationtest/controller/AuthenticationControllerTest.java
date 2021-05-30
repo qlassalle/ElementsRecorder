@@ -1,10 +1,18 @@
 package com.qlassalle.elementsrecorder.integrationtest.controller;
 
 import com.qlassalle.elementsrecorder.integrationtest.IntegrationTestBase;
+import com.qlassalle.elementsrecorder.integrationtest.utils.HttpTestCase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
+
+import java.util.stream.Stream;
+
+import static com.ekino.oss.jcv.assertion.hamcrest.JsonMatchers.jsonMatcher;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AuthenticationControllerTest extends IntegrationTestBase {
@@ -16,67 +24,45 @@ class AuthenticationControllerTest extends IntegrationTestBase {
     @Test
     @Sql("authenticationcontrollertest/sql/create_user.sql")
     void shouldAuthenticateUser() {
-        String inputFile = inputFile("correct_credentials.json");
-        postJson(BASE_URL + "/", inputFile).isOk()
-                                           .expectBody()
-                                           .jsonPath("access_token")
-                                           .isNotEmpty();
+        postUnauthenticatedJsonAndAssertStatusCodeAndBody(BASE_URL, "correct_credentials.json",200);
     }
 
     @DisplayName("Should return bad credentials when wrong password")
     @Test
     @Sql("authenticationcontrollertest/sql/create_user.sql")
     void shouldReturnBadCredentialsWhenWrongPassword() {
-        String inputFile = inputFile("wrong_credentials.json");
-        postJson(BASE_URL + "/", inputFile).isForbidden()
-                                           .expectBody()
-                                           .json(getJsonAsString(outputFile("wrong_credentials.json")));
+        postUnauthenticatedJsonAndAssertStatusCodeAndBody(BASE_URL, "wrong_credentials.json", 403);
     }
 
     @DisplayName("Should allow new user to register")
     @Test
     void shouldAllowNewUserToRegister() {
-        String inputFile = inputFile("register_correct_input.json");
-        postJson(REGISTER_URL, inputFile).isOk()
-                                         .expectBody()
-                                         .jsonPath("access_token")
-                                         .isNotEmpty();
+        buildPostRequest().body(getJsonAsString(inputFile("register_correct_input.json")))
+                          .post(REGISTER_URL)
+                          .then()
+                          .statusCode(200)
+                          .body(jsonMatcher(getJsonAsString(outputFile("correct_credentials.json"))));
     }
 
-    @DisplayName("Should fail when password doesn't match policy")
-    @Test
-    void shouldFailWhenPasswordDoesntMatchPolicy() {
-        String inputFile = inputFile("register_invalid_password.json");
-        postJson(REGISTER_URL, inputFile).is4xxClientError()
-                                         .expectBody()
-                                         .json(getJsonAsString(outputFile("register_invalid_password.json")));
-    }
-
-    @DisplayName("Should fail when client is already registered")
-    @Test
+    @ParameterizedTest
+    @MethodSource("registerTestCases")
     @Sql("authenticationcontrollertest/sql/create_user.sql")
-    void shouldFailWhenClientIsAlreadyRegistered() {
-        String inputFile = inputFile("register_duplicate_email.json");
-        postJson(REGISTER_URL, inputFile).is4xxClientError()
-                                         .expectBody()
-                                         .json(getJsonAsString(outputFile("email_already_used.json")));
+    public void testRegisterTestCases(HttpTestCase testCase) {
+        postUnauthenticatedJsonAndAssertStatusCodeAndBody(testCase.getUrl(), testCase.getInputFilename(),
+                                                          testCase.getStatusCode());
     }
 
-    @DisplayName("Should fail when passwords mismatch")
-    @Test
-    void shouldFailWhenPasswordsMismatch() {
-        String inputFile = inputFile("register_mismatch_password.json");
-        postJson(REGISTER_URL, inputFile).is4xxClientError()
-                                         .expectBody()
-                                         .json(getJsonAsString(outputFile("mismatch_password.json")));
-    }
-
-    @DisplayName("Should fail when user doesn't provide a correct email address")
-    @Test
-    void shouldFailWhenUserDoesntProvideCorrectEmail() {
-        String inputFile = inputFile("register_incorrect_email.json");
-        postJson(REGISTER_URL, inputFile).is4xxClientError()
-                                         .expectBody()
-                                         .json(getJsonAsString(outputFile("register_incorrect_email.json")));
+    @SuppressWarnings("unused")
+    public static Stream<Arguments> registerTestCases() {
+        return Stream.of(
+                Arguments.of(new HttpTestCase(REGISTER_URL, "register_invalid_password.json", 400, "Should fail when " +
+                        "password doesn't match policy")),
+                Arguments.of(new HttpTestCase(REGISTER_URL, "email_already_used.json", 409, "Should fail when user " +
+                        "is already registered")),
+                Arguments.of(new HttpTestCase(REGISTER_URL, "register_mismatch_password.json", 400, "Should fail when" +
+                        " password mismatch")),
+                Arguments.of(new HttpTestCase(REGISTER_URL, "register_incorrect_email.json", 400, "Should fail when " +
+                        "user doesn't provide a correct email address"))
+        );
     }
 }
