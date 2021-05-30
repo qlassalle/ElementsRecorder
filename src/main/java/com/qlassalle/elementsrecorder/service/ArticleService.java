@@ -3,7 +3,6 @@ package com.qlassalle.elementsrecorder.service;
 import com.qlassalle.elementsrecorder.adapters.entities.entity.ArticleEntity;
 import com.qlassalle.elementsrecorder.adapters.entities.entity.UserEntity;
 import com.qlassalle.elementsrecorder.adapters.entities.mappers.ArticleMapper;
-import com.qlassalle.elementsrecorder.adapters.entities.mappers.UserMapper;
 import com.qlassalle.elementsrecorder.adapters.entities.repository.JpaArticleRepository;
 import com.qlassalle.elementsrecorder.domain.model.Article;
 import com.qlassalle.elementsrecorder.domain.model.input.ArticleCreationRequest;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,34 +24,32 @@ public class ArticleService {
     private final JpaArticleRepository articleRepository;
     private final CreateArticleUseCase createArticleUseCase;
     private final ArticleMapper articleMapper = new ArticleMapper();
-    // TODO: 19/04/2021 remove this
-    private final UserMapper userMapper = new UserMapper();
 
-    public List<Article> findAll(UserEntity user) {
-        return articleRepository.findAllByUser(user)
+    public List<Article> findAll(UUID userId) {
+        return articleRepository.findAllByUserId(userId)
                                 .stream()
                                 .map(articleMapper::map)
                                 .collect(Collectors.toList());
     }
 
     public Article findById(Long id, UserEntity user) {
-        ArticleEntity article = findByIdAndUser(id, user);
+        ArticleEntity article = findByIdAndUser(id, user.getId());
         return articleMapper.map(article);
     }
 
-    private ArticleEntity findByIdAndUser(Long id, UserEntity user) {
-        return articleRepository.findByIdAndUser(id, user)
+    private ArticleEntity findByIdAndUser(Long id, UUID userId) {
+        return articleRepository.findByIdAndUserId(id, userId)
                                 .orElseThrow(() -> new NoSuchElementException("No such article with this id"));
     }
 
-    public Article create(ArticleCreationRequest creationRequest, UserEntity user) {
-        Article article = createArticleUseCase.create(creationRequest, userMapper.map(user));
+    public Article create(ArticleCreationRequest creationRequest, UUID userId) {
+        Article article = createArticleUseCase.create(creationRequest, userId);
         log.info("Created article {}", article);
         return article;
     }
 
     public void delete(Long id, UserEntity user) {
-        ArticleEntity article = findByIdAndUser(id, user);
+        ArticleEntity article = findByIdAndUser(id, user.getId());
         articleRepository.delete(article);
         log.info("Deleted entity with id {}", id);
     }

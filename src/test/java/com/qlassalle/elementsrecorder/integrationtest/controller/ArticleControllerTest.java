@@ -23,7 +23,7 @@ public class ArticleControllerTest extends IntegrationTestBase {
     void shouldNotCreateArticleWithInvalidUrl() {
         givenAuthenticatedPostJsonRequest(BASE_URL, USERNAME, "invalid_url.json")
                .statusCode(400)
-               .body(jsonMatcher(getJsonAsString(outputFile("invalid_url.json"))));
+               .body(jsonMatcher(outputFile("invalid_url.json")));
     }
 
     @DisplayName("Should create an article")
@@ -32,6 +32,13 @@ public class ArticleControllerTest extends IntegrationTestBase {
     void shouldCreateAnArticle() {
         givenAuthenticatedPostJsonRequest(BASE_URL, USERNAME, "valid_article.json")
                .statusCode(201)
-               .body(jsonMatcher(getJsonAsString(outputFile("valid_article.json"))));
+               .body(jsonMatcher(outputFile("valid_article.json")));
+    }
+
+    @DisplayName("Should get all articles for user")
+    @Test
+    @Sql("articlecontrollertest/sql/create_user.sql")
+    void shouldGetAllArticlesForUser() {
+        givenAuthenticatedGetRequest(BASE_URL, USERNAME, "get/all_articles.json");
     }
 }

@@ -19,17 +19,17 @@ public class Article {
     private final String description;
     private final int rating;
     private final String url;
-    private final User user;
+    private final UUID userId;
     private final Instant createdAt;
     private final Instant updatedAt;
 
-    public Article(UUID id, String name, String description, int rating, String url, User user) {
+    public Article(UUID id, String name, String description, int rating, String url, UUID userId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.rating = rating;
         this.url = url;
-        this.user = user;
+        this.userId = userId;
         this.createdAt = Instant.now();
         this.updatedAt = Instant.now();
     }

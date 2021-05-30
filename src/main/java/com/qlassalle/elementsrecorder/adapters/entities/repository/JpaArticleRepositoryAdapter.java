@@ -7,6 +7,9 @@ import com.qlassalle.elementsrecorder.domain.model.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Component
 public class JpaArticleRepositoryAdapter implements ArticleRepository {
@@ -18,5 +21,10 @@ public class JpaArticleRepositoryAdapter implements ArticleRepository {
     public Article save(Article article) {
         ArticleEntity entity = articleMapper.map(article);
         return articleMapper.map(jpaArticleRepository.save(entity));
+    }
+
+    @Override
+    public List<Article> findAll(UUID userId) {
+        return null;
     }
 }

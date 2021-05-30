@@ -38,13 +38,13 @@ public class CreateArticleUseCaseTest {
         User user = new User(uuidProvider.generate(), "email@gmail.com", "Azertyuiop0.");
         Article expectedArticle = buildExpectedArticle(name, description, rating, url);
 
-        Article article = createArticleUseCase.create(new ArticleCreationRequest(name, description, rating, url), user);
+        Article article = createArticleUseCase.create(new ArticleCreationRequest(name, description, rating, url),
+                                                      user.getId());
 
         assertThat(validator.validate(article)).isEmpty();
         assertThat(article).usingRecursiveComparison()
-                           .ignoringFields("user", "createdAt", "updatedAt")
+                           .ignoringFields("createdAt", "updatedAt")
                            .isEqualTo(expectedArticle);
-        assertThat(article.getUser()).isNotNull();
         assertThat(article.getCreatedAt()).isNotNull();
         assertThat(article.getUpdatedAt()).isNotNull();
     }
@@ -65,6 +65,7 @@ public class CreateArticleUseCaseTest {
                       .description(description)
                       .rating(rating)
                       .url(url)
+                      .userId(uuidProvider.generate())
                       .build();
     }
 

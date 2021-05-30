@@ -30,9 +30,8 @@ public class ArticleEntity {
 
     private Instant updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @Setter
-    private UserEntity user;
+    private UUID userId;
 
     @Override
     public boolean equals(Object o) {

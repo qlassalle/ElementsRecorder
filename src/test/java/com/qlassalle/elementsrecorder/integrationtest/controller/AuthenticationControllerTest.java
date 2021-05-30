@@ -37,11 +37,11 @@ class AuthenticationControllerTest extends IntegrationTestBase {
     @DisplayName("Should allow new user to register")
     @Test
     void shouldAllowNewUserToRegister() {
-        buildPostRequest().body(getJsonAsString(inputFile("register_correct_input.json")))
-                          .post(REGISTER_URL)
-                          .then()
-                          .statusCode(200)
-                          .body(jsonMatcher(getJsonAsString(outputFile("correct_credentials.json"))));
+        buildRequest().body(inputFile("register_correct_input.json"))
+                      .post(REGISTER_URL)
+                      .then()
+                      .statusCode(200)
+                      .body(jsonMatcher(outputFile("correct_credentials.json")));
     }
 
     @ParameterizedTest

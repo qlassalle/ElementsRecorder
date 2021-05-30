@@ -5,6 +5,8 @@ import com.qlassalle.elementsrecorder.domain.model.repository.ArticleRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class InMemoryArticleRepository implements ArticleRepository {
 
@@ -14,5 +16,13 @@ public class InMemoryArticleRepository implements ArticleRepository {
     public Article save(Article article) {
         articles.add(article);
         return article;
+    }
+
+    @Override
+    public List<Article> findAll(UUID userId) {
+        return articles.stream()
+                       .filter(article -> article.getUserId()
+                                                 .equals(userId))
+                       .collect(Collectors.toList());
     }
 }
