@@ -2,6 +2,7 @@ package com.qlassalle.elementsrecorder.adapters.exceptions;
 
 import com.qlassalle.elementsrecorder.domain.exceptions.EmailExistsException;
 import com.qlassalle.elementsrecorder.domain.exceptions.InvalidPasswordException;
+import com.qlassalle.elementsrecorder.domain.exceptions.ResourceNotFoundException;
 import com.qlassalle.elementsrecorder.domain.exceptions.UnauthorizedException;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 @Slf4j
@@ -45,7 +45,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = BadCredentialsException.class)
     public ResponseEntity<ApiResponse> badCredentials(BadCredentialsException exception) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse("The provided password isn't correct"));
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse("Username or password invalid"));
     }
 
     @ExceptionHandler(value = UnauthorizedException.class)
@@ -53,8 +53,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse(exception.getMessage()));
     }
 
-    @ExceptionHandler(value = NoSuchElementException.class)
-    public ResponseEntity<ApiResponse> resourceNotFoundException(NoSuchElementException exception) {
+    @ExceptionHandler(value = ResourceNotFoundException.class)
+    public ResponseEntity<ApiResponse> resourceNotFoundException(ResourceNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(exception.getMessage()));
     }
 

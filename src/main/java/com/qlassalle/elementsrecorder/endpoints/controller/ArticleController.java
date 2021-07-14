@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/article")
@@ -25,7 +26,7 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
-    public Article get(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails user) {
+    public Article get(@PathVariable UUID id, @AuthenticationPrincipal CustomUserDetails user) {
         return articleService.findById(id, user.getUser());
     }
 

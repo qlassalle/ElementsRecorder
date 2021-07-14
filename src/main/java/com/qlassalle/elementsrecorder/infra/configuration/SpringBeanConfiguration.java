@@ -3,6 +3,7 @@ package com.qlassalle.elementsrecorder.infra.configuration;
 import com.qlassalle.elementsrecorder.adapters.entities.RandomUUIDProvider;
 import com.qlassalle.elementsrecorder.adapters.entities.repository.JpaArticleRepositoryAdapter;
 import com.qlassalle.elementsrecorder.domain.usecases.article.CreateArticleUseCase;
+import com.qlassalle.elementsrecorder.domain.usecases.article.GetArticleUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,5 +14,10 @@ public class SpringBeanConfiguration {
     public CreateArticleUseCase createArticleUseCase(JpaArticleRepositoryAdapter articleRepository,
                                                      RandomUUIDProvider uuidProvider) {
         return new CreateArticleUseCase(articleRepository, uuidProvider);
+    }
+
+    @Bean
+    public GetArticleUseCase getArticleUseCase(JpaArticleRepositoryAdapter articleRepository) {
+        return new GetArticleUseCase(articleRepository);
     }
 }

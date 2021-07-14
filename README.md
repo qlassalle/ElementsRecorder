@@ -39,6 +39,7 @@ docker-compose up --build --force-recreate
 * Don't forget the `;` at the end of your queries!!
 
 # Features to add
+Rating should have a maximum
 ...
 # Bugs to fix
 * Change postgresql port on Pi 
@@ -47,7 +48,7 @@ docker-compose up --build --force-recreate
 # Things that I'd like to have on this project
 * CI/CD including
     * Dockerization
-    * automated deployment on GCP
+    * automated deployment on AWS
     * good integration tests with Docker
 * Gradle as a build tool
 * Fancy badges on Github repo

@@ -1,45 +1,31 @@
 package com.qlassalle.elementsrecorder.service;
 
-import com.qlassalle.elementsrecorder.adapters.entities.entity.ArticleEntity;
 import com.qlassalle.elementsrecorder.adapters.entities.entity.UserEntity;
-import com.qlassalle.elementsrecorder.adapters.entities.mappers.ArticleMapper;
-import com.qlassalle.elementsrecorder.adapters.entities.repository.JpaArticleRepository;
 import com.qlassalle.elementsrecorder.domain.model.Article;
 import com.qlassalle.elementsrecorder.domain.model.input.ArticleCreationRequest;
 import com.qlassalle.elementsrecorder.domain.usecases.article.CreateArticleUseCase;
+import com.qlassalle.elementsrecorder.domain.usecases.article.GetArticleUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ArticleService {
 
-    private final JpaArticleRepository articleRepository;
     private final CreateArticleUseCase createArticleUseCase;
-    private final ArticleMapper articleMapper = new ArticleMapper();
+    private final GetArticleUseCase getArticleUseCase;
 
     public List<Article> findAll(UUID userId) {
-        return articleRepository.findAllByUserId(userId)
-                                .stream()
-                                .map(articleMapper::map)
-                                .collect(Collectors.toList());
+        return getArticleUseCase.findAll(userId);
     }
 
-    public Article findById(Long id, UserEntity user) {
-        ArticleEntity article = findByIdAndUser(id, user.getId());
-        return articleMapper.map(article);
-    }
-
-    private ArticleEntity findByIdAndUser(Long id, UUID userId) {
-        return articleRepository.findByIdAndUserId(id, userId)
-                                .orElseThrow(() -> new NoSuchElementException("No such article with this id"));
+    public Article findById(UUID id, UserEntity user) {
+        return getArticleUseCase.findById(id, user.getId());
     }
 
     public Article create(ArticleCreationRequest creationRequest, UUID userId) {
@@ -49,9 +35,9 @@ public class ArticleService {
     }
 
     public void delete(Long id, UserEntity user) {
-        ArticleEntity article = findByIdAndUser(id, user.getId());
-        articleRepository.delete(article);
-        log.info("Deleted entity with id {}", id);
+//        ArticleEntity article = findByIdAndUser(id, user.getId());
+//        articleRepository.delete(article);
+//        log.info("Deleted entity with id {}", id);
     }
 
 //    public Article update(Long id, Article article, UserEntity user) {

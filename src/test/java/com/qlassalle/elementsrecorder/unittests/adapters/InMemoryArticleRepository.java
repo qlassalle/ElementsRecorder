@@ -1,5 +1,6 @@
 package com.qlassalle.elementsrecorder.unittests.adapters;
 
+import com.qlassalle.elementsrecorder.domain.exceptions.ResourceNotFoundException;
 import com.qlassalle.elementsrecorder.domain.model.Article;
 import com.qlassalle.elementsrecorder.domain.model.repository.ArticleRepository;
 
@@ -24,5 +25,13 @@ public class InMemoryArticleRepository implements ArticleRepository {
                        .filter(article -> article.getUserId()
                                                  .equals(userId))
                        .collect(Collectors.toList());
+    }
+
+    @Override
+    public Article findById(UUID articleId, UUID userId) {
+        return articles.stream()
+                .filter(article -> article.getId().equals(articleId) && article.getUserId().equals(userId))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("No article found with id %s", articleId));
     }
 }

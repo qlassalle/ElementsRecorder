@@ -9,4 +9,6 @@ public interface ArticleRepository {
     Article save(Article article);
 
     List<Article> findAll(UUID userId);
+
+    Article findById(UUID articleId, UUID userId);
 }

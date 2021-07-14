@@ -60,10 +60,10 @@ public abstract class IntegrationTestBase {
                       .body(jsonMatcher(outputFile(filename)));
     }
 
-    protected void givenAuthenticatedGetRequest(String url, String username, String outputFile) {
+    protected void givenAuthenticatedGetRequest(String url, String username, int statusCode, String outputFile) {
         buildAuthenticatedRequest(username).get(url)
                                            .then()
-                                           .statusCode(200)
+                                           .statusCode(statusCode)
                                            .body(jsonMatcher(outputFile(outputFile)));
     }
 

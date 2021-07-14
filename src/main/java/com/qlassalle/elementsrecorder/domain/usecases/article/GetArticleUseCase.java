@@ -15,4 +15,8 @@ public class GetArticleUseCase {
     public List<Article> findAll(UUID userId) {
         return articleRepository.findAll(userId);
     }
+
+    public Article findById(UUID articleId, UUID userId) {
+        return articleRepository.findById(articleId, userId);
+    }
 }

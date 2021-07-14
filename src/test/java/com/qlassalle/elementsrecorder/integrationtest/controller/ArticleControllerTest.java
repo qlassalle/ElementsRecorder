@@ -39,6 +39,22 @@ public class ArticleControllerTest extends IntegrationTestBase {
     @Test
     @Sql("articlecontrollertest/sql/create_user.sql")
     void shouldGetAllArticlesForUser() {
-        givenAuthenticatedGetRequest(BASE_URL, USERNAME, "get/all_articles.json");
+        givenAuthenticatedGetRequest(BASE_URL, USERNAME, 200, "get/all_articles.json");
+    }
+
+    @DisplayName("Should get one article by id for user")
+    @Test
+    @Sql("articlecontrollertest/sql/create_user.sql")
+    void shouldGetArticleForUser() {
+        String articleId = "00000000-0000-0000-0000-000000000001";
+        givenAuthenticatedGetRequest(BASE_URL + "/" + articleId, USERNAME, 200, "get/article_by_id.json");
+    }
+
+    @DisplayName("Should return 404 if user doesn't own article")
+    @Test
+    @Sql("articlecontrollertest/sql/create_user.sql")
+    void shouldReturnNotFoundIfUserDoesNotOwnArticle() {
+        String articleId = "00000000-0000-0000-0000-000000000003";
+        givenAuthenticatedGetRequest(BASE_URL + "/" + articleId, USERNAME, 404, "get/article_not_owned_by_user.json");
     }
 }

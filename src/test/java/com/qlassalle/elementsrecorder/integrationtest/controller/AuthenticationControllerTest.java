@@ -34,6 +34,13 @@ class AuthenticationControllerTest extends IntegrationTestBase {
         postUnauthenticatedJsonAndAssertStatusCodeAndBody(BASE_URL, "wrong_credentials.json", 403);
     }
 
+    @DisplayName("Should return bad credentials when user does not exist")
+    @Test
+    @Sql("authenticationcontrollertest/sql/create_user.sql")
+    void shouldNotExist() {
+        postUnauthenticatedJsonAndAssertStatusCodeAndBody(BASE_URL, "user_does_not_exist.json", 403);
+    }
+
     @DisplayName("Should allow new user to register")
     @Test
     void shouldAllowNewUserToRegister() {
