@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:54320/dev_elements_recorder
+    url: jdbc:tc:postgresql:13.3:///dev_elements_recorder
     username: dev_elements_recorder_app
     password: root
     hikari:
