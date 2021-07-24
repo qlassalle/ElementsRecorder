@@ -6,6 +6,8 @@ import com.qlassalle.elementsrecorder.integrationtest.utils.ClassPathResources;
 import com.qlassalle.elementsrecorder.integrationtest.utils.TruncateTables;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
+import org.junit.jupiter.api.BeforeAll;
+import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -23,11 +25,20 @@ public abstract class IntegrationTestBase {
     @Autowired
     JwtUtil jwtUtil;
 
+    protected static PGSimpleDataSource dataSource = new PGSimpleDataSource();
+
     @LocalServerPort
     protected int serverPort;
 
     protected static final String INPUT_BASE_PATH = "input/";
     protected static final String OUTPUT_BASE_PATH = "output/";
+
+    @BeforeAll
+    static void beforeAll() {
+        dataSource.setUrl("jdbc:postgresql://localhost:54320/dev_elements_recorder");
+        dataSource.setUser("dev_elements_recorder_app");
+        dataSource.setPassword("root");
+    }
 
     protected String getJsonAsString(String path) {
         try {
@@ -65,6 +76,12 @@ public abstract class IntegrationTestBase {
                                            .then()
                                            .statusCode(statusCode)
                                            .body(jsonMatcher(outputFile(outputFile)));
+    }
+
+    protected void givenAuthenticatedDeleteRequest(String url, String username) {
+        buildAuthenticatedRequest(username).delete(url)
+                                           .then()
+                                           .statusCode(204);
     }
 
     protected RequestSpecification buildRequest() {

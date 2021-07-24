@@ -44,7 +44,8 @@ public class ArticleController {
 //    }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails user) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable UUID id, @AuthenticationPrincipal CustomUserDetails user) {
         articleService.delete(id, user.getUser());
     }
 }

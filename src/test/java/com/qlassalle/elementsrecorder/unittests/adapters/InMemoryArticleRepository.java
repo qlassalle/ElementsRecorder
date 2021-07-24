@@ -34,4 +34,9 @@ public class InMemoryArticleRepository implements ArticleRepository {
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("No article found with id %s", articleId));
     }
+
+    @Override
+    public void delete(UUID articleId, UUID userId) {
+        articles.removeIf(article -> article.getId().equals(articleId) && article.getUserId().equals(userId));
+    }
 }

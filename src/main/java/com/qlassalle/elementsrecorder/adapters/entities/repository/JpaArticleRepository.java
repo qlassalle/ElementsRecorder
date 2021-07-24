@@ -14,4 +14,6 @@ public interface JpaArticleRepository extends JpaRepository<ArticleEntity, Long>
     List<ArticleEntity> findAllByUserId(UUID userId);
 
     Optional<ArticleEntity> findByIdAndUserId(UUID id, UUID userId);
+
+    void deleteByIdAndUserId(UUID articleId, UUID userId);
 }

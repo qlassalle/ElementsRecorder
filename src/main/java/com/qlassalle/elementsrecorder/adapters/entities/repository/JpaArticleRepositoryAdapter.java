@@ -40,4 +40,9 @@ public class JpaArticleRepositoryAdapter implements ArticleRepository {
         return articleEntity.map(articleMapper::map)
                             .orElseThrow(() -> new ResourceNotFoundException("No article found for id %s", articleId));
     }
+
+    @Override
+    public void delete(UUID articleId, UUID userId) {
+        jpaArticleRepository.deleteByIdAndUserId(articleId, userId);
+    }
 }
