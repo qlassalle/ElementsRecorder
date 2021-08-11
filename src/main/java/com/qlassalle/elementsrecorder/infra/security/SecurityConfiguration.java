@@ -34,7 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .csrf()
                 .disable()
             .authorizeRequests()
-                .antMatchers("/authenticate", "/authenticate/register")
+                .antMatchers("/authenticate", "/authenticate/register", "/hello/")
                 .permitAll()
             .anyRequest()
                 .authenticated()
@@ -61,7 +61,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200")
+//                        .allowedOrigins("http://localhost:4200", "http://localhost", "internal-elements-recorder-alb-internal-285964227.eu-west-3.elb.amazonaws.com", "internal-elements-recorder-alb-internal-285964227.eu-west-3.elb.amazonaws.com:8087")
+                        .allowedOrigins("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };

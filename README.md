@@ -7,25 +7,24 @@ To ensure everything's working properly, run
 * `./mvnw clean install`
 * `./mvnw test`
 
+# Infrastructure
+![](infra.png)
+
+The front and the back of this application run inside containers. Docker images are pushed to ECR and task definitions 
+retrieve them. 
+The backend app is exposed on port 8088 and is reached through a load balancer. The backend is not internet facing.
+The frontend app is exposed on port 80 and is accessible through internet. 
+A request goes through the following layers:
+* client hits EC2 instance's IP and sees the web app
+* the web app performs a request to the API Gateway. API Gateway is internet facing.
+* API Gateway forwards the request to the ALB thanks to a VPC private link. The VPC private link allows the API gateway 
+to forward request to the ALB as it is not internet facing and only exposes port 8087. A security group rule ensure the 
+ALB can only be hit by the API gateway.
+* ALB forwards request to backend
+
 # How to run
-
-Locally, place yourself one level above back and front and run docker-compose up
-
-On GCP, make sure env variables are set up. To set up environment variables, do the following:
-
-```
-vi .bashrc
-export MY_ENV_VAR=xxxxx
-source .bashrc
-printenv # to make sure that your env var has been set up
-```
-
-To deploy
-* `mvn package -DskipTests`
-* cp target/elements-recorder-SNAPSHOT.jar back/target/
-* gcloud compute scp --recurse back remember-me-back:~
-
-You must expose one of the ports (currently only the db) from your router. Go to 192.168.1.1 and open a NAT port.
+Locally, you can simply run the backend with a database:
+`docker-compose --file docker-compose-local.yml up --build [--force-recreate --no-deps]`
 
 # Docker troubleshooting
 If you consistently see that your changes are not reported to your containers, consider deleting all the images and run the following command 
@@ -41,13 +40,11 @@ docker-compose up --build --force-recreate
 # Features to add
 Rating should have a maximum
 ...
-# Bugs to fix
-* Change postgresql port on Pi 
+# Bugs to fix 
 * Timestamps for dates aren't set on adding and updating
 
 # Things that I'd like to have on this project
 * CI/CD including
-    * Dockerization
     * automated deployment on AWS
     * good integration tests with Docker
 * Gradle as a build tool
