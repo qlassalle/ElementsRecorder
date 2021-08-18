@@ -15,6 +15,6 @@ public class HelloController {
     @GetMapping
     public Map<String, String> sayHello() {
         log.info("Hit on elements-recorder-back on path /hello");
-        return Map.of("Hello", "You!");
+        return Map.of("CD", "Is amazing!");
     }
 }
