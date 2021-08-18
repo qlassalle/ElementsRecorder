@@ -6,7 +6,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws --version
       - aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 034619683986.dkr.ecr.eu-west-3.amazonaws.com
-      - REPOSITORY_URI=034619683986.dkr.ecr.eu-west-3.amazonaws.com/elements-recorder-back:3
+      - REPOSITORY_URI=034619683986.dkr.ecr.eu-west-3.amazonaws.com/elements-recorder-back
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
