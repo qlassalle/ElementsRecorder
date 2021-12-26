@@ -7,7 +7,6 @@ import com.qlassalle.elementsrecorder.domain.usecases.article.CreateArticleUseCa
 import com.qlassalle.elementsrecorder.domain.usecases.article.DeleteArticleUseCase;
 import com.qlassalle.elementsrecorder.domain.usecases.article.GetArticleUseCase;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,7 +15,6 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ArticleService {
 
     private final CreateArticleUseCase createArticleUseCase;
@@ -32,9 +30,7 @@ public class ArticleService {
     }
 
     public Article create(ArticleCreationRequest creationRequest, UUID userId) {
-        Article article = createArticleUseCase.create(creationRequest, userId);
-        log.info("Created article {}", article);
-        return article;
+        return createArticleUseCase.create(creationRequest, userId);
     }
 
     @Transactional
