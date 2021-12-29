@@ -14,7 +14,7 @@
 	<name>elements-recorder</name>
 	<description>Elements recorder project</description>
 	<properties>
-		<java.version>16</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<!-- ********************************* SPRING BOOT DEPENDENCIES *************************-->
