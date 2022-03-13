@@ -1,6 +1,6 @@
 create schema if not exists elements_recorder_schema;
 
-create table elements_recorder_schema.article
+create table elements_recorder_schema.resource
 (
     id uuid,
     name varchar(50) not null,

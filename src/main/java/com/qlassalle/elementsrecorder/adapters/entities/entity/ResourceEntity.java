@@ -12,8 +12,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @ToString
 @Builder
-@Table(schema = "elements_recorder_schema", name = "article")
-public class ArticleEntity {
+@Table(schema = "elements_recorder_schema", name = "resource")
+public class ResourceEntity {
 
     @Id
     private UUID id;
@@ -38,7 +38,7 @@ public class ArticleEntity {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ArticleEntity that)) {
+        if (!(o instanceof ResourceEntity that)) {
             return false;
         }
 

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @ToString
-public class Article {
+public class Resource {
     private final UUID id;
     private final String name;
     private final String description;
@@ -23,7 +23,7 @@ public class Article {
     private final Instant createdAt;
     private final Instant updatedAt;
 
-    public Article(UUID id, String name, String description, int rating, String url, UUID userId) {
+    public Resource(UUID id, String name, String description, int rating, String url, UUID userId) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -42,8 +42,8 @@ public class Article {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Article article = (Article) o;
-        return rating == article.rating && id.equals(article.id) && name.equals(article.name) && description.equals(article.description) && url.equals(article.url);
+        Resource resource = (Resource) o;
+        return rating == resource.rating && id.equals(resource.id) && name.equals(resource.name) && description.equals(resource.description) && url.equals(resource.url);
     }
 
     @Override

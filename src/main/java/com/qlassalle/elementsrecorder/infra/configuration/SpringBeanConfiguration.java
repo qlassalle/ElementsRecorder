@@ -1,10 +1,10 @@
 package com.qlassalle.elementsrecorder.infra.configuration;
 
 import com.qlassalle.elementsrecorder.adapters.entities.RandomUUIDProvider;
-import com.qlassalle.elementsrecorder.adapters.entities.repository.JpaArticleRepositoryAdapter;
-import com.qlassalle.elementsrecorder.domain.usecases.article.CreateArticleUseCase;
-import com.qlassalle.elementsrecorder.domain.usecases.article.DeleteArticleUseCase;
-import com.qlassalle.elementsrecorder.domain.usecases.article.GetArticleUseCase;
+import com.qlassalle.elementsrecorder.adapters.entities.repository.JpaResourceRepositoryAdapter;
+import com.qlassalle.elementsrecorder.domain.usecases.resource.CreateResourceUseCase;
+import com.qlassalle.elementsrecorder.domain.usecases.resource.DeleteResourceUseCase;
+import com.qlassalle.elementsrecorder.domain.usecases.resource.GetResourceUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,18 +12,18 @@ import org.springframework.context.annotation.Configuration;
 public class SpringBeanConfiguration {
 
     @Bean
-    public CreateArticleUseCase createArticleUseCase(JpaArticleRepositoryAdapter articleRepository,
-                                                     RandomUUIDProvider uuidProvider) {
-        return new CreateArticleUseCase(articleRepository, uuidProvider);
+    public CreateResourceUseCase createResourceUseCase(JpaResourceRepositoryAdapter resourceRepository,
+                                                       RandomUUIDProvider uuidProvider) {
+        return new CreateResourceUseCase(resourceRepository, uuidProvider);
     }
 
     @Bean
-    public GetArticleUseCase getArticleUseCase(JpaArticleRepositoryAdapter articleRepository) {
-        return new GetArticleUseCase(articleRepository);
+    public GetResourceUseCase getResourceUseCase(JpaResourceRepositoryAdapter resourceRepository) {
+        return new GetResourceUseCase(resourceRepository);
     }
 
     @Bean
-    public DeleteArticleUseCase deleteArticleUseCase(JpaArticleRepositoryAdapter articleRepository) {
-        return new DeleteArticleUseCase(articleRepository);
+    public DeleteResourceUseCase deleteResourceUseCase(JpaResourceRepositoryAdapter resourceRepository) {
+        return new DeleteResourceUseCase(resourceRepository);
     }
 }
