@@ -20,13 +20,17 @@ import static org.assertj.db.api.Assertions.assertThat;
 @Sql("shared/sql/create_user.sql")
 public class ResourceControllerTest extends IntegrationTestBase {
 
+    private Table tagResourceTable;
     private Table table;
+    private Table tagTable;
     private static final String BASE_URL = "/resource";
     private static final String USERNAME = "testemail@gmail.com";
 
     @BeforeEach
     void setUp() {
         table = new Table(dataSource, "elements_recorder_schema.resource");
+        tagResourceTable = new Table(dataSource, "elements_recorder_schema.tag_resource");
+        tagTable = new Table(dataSource, "elements_recorder_schema.tag");
     }
 
     @DisplayName("Should not create resource with invalid URL")
@@ -41,13 +45,13 @@ public class ResourceControllerTest extends IntegrationTestBase {
     @Test
     @Sql({"shared/sql/create_user.sql", "resourcecontrollertest/sql/create_tags.sql"})
     void shouldCreateAResourceWithExistingTagsOnly() {
-        assertThat(new Table(dataSource, "elements_recorder_schema.tag")).hasNumberOfRows(2);
+        assertThat(tagTable).hasNumberOfRows(2);
         givenAuthenticatedPostJsonRequest(BASE_URL, USERNAME, "create/valid_resource.json")
                .statusCode(201)
                .body(jsonMatcher(outputFile("create/valid_resource.json")));
 
-        assertThat(new Table(dataSource, "elements_recorder_schema.tag")).hasNumberOfRows(2);
-        assertThat(new Table(dataSource, "elements_recorder_schema.tag_resource")).hasNumberOfRows(2);
+        assertThat(tagTable).hasNumberOfRows(2);
+        assertThat(tagResourceTable).hasNumberOfRows(2);
     }
 
     @DisplayName("Should create a resource with new tags")
@@ -59,7 +63,7 @@ public class ResourceControllerTest extends IntegrationTestBase {
                 .body(jsonMatcher(outputFile("create/valid_resource_with_new_tags.json")));
 
         assertThat(new Table(dataSource, "elements_recorder_schema.tag")).hasNumberOfRows(2);
-        assertThat(new Table(dataSource, "elements_recorder_schema.tag_resource")).hasNumberOfRows(2);
+        assertThat(tagResourceTable).hasNumberOfRows(2);
     }
 
     @DisplayName("Should create a resource with new and existing tags")
@@ -72,7 +76,7 @@ public class ResourceControllerTest extends IntegrationTestBase {
                 .body(jsonMatcher(outputFile("create/valid_resource_with_new_and_existing_tags.json")));
 
         assertThat(new Table(dataSource, "elements_recorder_schema.tag")).hasNumberOfRows(3);
-        assertThat(new Table(dataSource, "elements_recorder_schema.tag_resource")).hasNumberOfRows(3);
+        assertThat(tagResourceTable).hasNumberOfRows(3);
     }
 
     @DisplayName("Should create a resource without tags")
@@ -82,7 +86,7 @@ public class ResourceControllerTest extends IntegrationTestBase {
                 .statusCode(201)
                 .body(jsonMatcher(outputFile("create/valid_resource_no_tags.json")));
 
-        assertThat(new Table(dataSource, "elements_recorder_schema.tag_resource")).hasNumberOfRows(0);
+        assertThat(tagResourceTable).hasNumberOfRows(0);
     }
 
     @DisplayName("Should get all resources for user")
@@ -118,11 +122,22 @@ public class ResourceControllerTest extends IntegrationTestBase {
     @DisplayName("Should delete resource")
     @Test
     @Sql({"shared/sql/create_user.sql", "resourcecontrollertest/sql/create_resources_without_tag.sql"})
-    void shouldDeleteResource() {
+    void shouldDeleteResourceWithoutTag() {
         String resourceId = "00000000-0000-0000-0000-000000000001";
         givenAuthenticatedDeleteRequest(BASE_URL + "/" + resourceId, USERNAME);
 
         assertThat(table).hasNumberOfRows(2);
+    }
+
+    @DisplayName("Should delete resource with tags")
+    @Test
+    @Sql({"shared/sql/create_user.sql", "resourcecontrollertest/sql/create_resources_with_tags.sql"})
+    void shouldDeleteResourceWithTags() {
+        String resourceId = "98b8fdc6-acf2-4e46-9419-150e42d078bd";
+        givenAuthenticatedDeleteRequest(BASE_URL + "/" + resourceId, USERNAME);
+
+        assertThat(table).hasNumberOfRows(0);
+        assertThat(tagResourceTable).hasNumberOfRows(1);
     }
 
     @DisplayName("Should delete and do nothing when resource does not exist")

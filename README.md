@@ -38,7 +38,6 @@ docker-compose up --build --force-recreate
 * Don't forget the `;` at the end of your queries!!
 
 # Features to add
-* Resource deletion should delete entries in tag_resource table
 * Rating should have a maximum
 * Expired JWT should not throw any exception
 ...

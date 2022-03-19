@@ -54,6 +54,7 @@ public class ResourceService {
     @Transactional
     public void delete(UUID id, UserEntity user) {
         deleteResourceUseCase.delete(id, user.getId());
+        tagResourceDAO.delete(id);
     }
 
 //    public Resource update(Long id, Resource resource, UserEntity user) {
