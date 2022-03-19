@@ -2,7 +2,7 @@ create schema if not exists elements_recorder_schema;
 
 create table elements_recorder_schema.resource
 (
-    id uuid,
+    id uuid primary key,
     name varchar(50) not null,
     description text not null,
     rating smallint null,

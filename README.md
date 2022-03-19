@@ -38,7 +38,9 @@ docker-compose up --build --force-recreate
 * Don't forget the `;` at the end of your queries!!
 
 # Features to add
-Rating should have a maximum
+* Resource deletion should delete entries in tag_resource table
+* Rating should have a maximum
+* Expired JWT should not throw any exception
 ...
 # Bugs to fix 
 * Timestamps for dates aren't set on adding and updating
@@ -49,7 +51,3 @@ Rating should have a maximum
     * good integration tests with Docker
 * Gradle as a build tool
 * Fancy badges on Github repo
-
-# Things added
-* PostgreSQL
-* Flyway

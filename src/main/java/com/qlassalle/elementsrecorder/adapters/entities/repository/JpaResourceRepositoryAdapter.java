@@ -28,7 +28,7 @@ public class JpaResourceRepositoryAdapter implements ResourceRepository {
 
     @Override
     public List<Resource> findAll(UUID userId) {
-        return jpaResourceRepository.findAllByUserId(userId)
+        return jpaResourceRepository.findAllByUserIdOrderByRatingDesc(userId)
                                     .stream()
                                     .map(resourceMapper::map)
                                     .collect(Collectors.toList());
@@ -36,7 +36,7 @@ public class JpaResourceRepositoryAdapter implements ResourceRepository {
 
     @Override
     public Resource findById(UUID resourceId, UUID userId) {
-        Optional<ResourceEntity> resourceEntity = jpaResourceRepository.findByIdAndUserId(resourceId, userId);
+        Optional<ResourceEntity> resourceEntity = jpaResourceRepository.findByIdAndUserIdOrderByRatingDesc(resourceId, userId);
         return resourceEntity.map(resourceMapper::map)
                             .orElseThrow(() -> new ResourceNotFoundException("No resource found for id %s", resourceId));
     }

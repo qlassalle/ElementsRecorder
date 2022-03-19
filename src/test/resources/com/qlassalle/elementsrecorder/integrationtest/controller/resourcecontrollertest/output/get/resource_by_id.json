@@ -4,6 +4,7 @@
   "description": "Noobs should read this",
   "rating": 5,
   "url": "https://www.noobs.com",
+  "tags": [],
   "user_id": "00000000-0000-0000-0000-000000000001",
   "created_at": "2021-06-01T17:00:00Z",
   "updated_at": "2021-06-01T17:00:00Z"

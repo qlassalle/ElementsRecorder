@@ -1,0 +1,7 @@
+{
+  "name": "A WhatsApp clone in AWS",
+  "description": "How to recreate WhatsApp on AWS",
+  "rating": 5,
+  "url": "https://www.highscalability.com/whatsapp-clone",
+  "tags": ["System design", "Cloud", "AWS"]
+}

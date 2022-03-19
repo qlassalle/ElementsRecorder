@@ -2,7 +2,9 @@ package com.qlassalle.elementsrecorder.adapters.entities.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.Instant;
 import java.util.UUID;
 

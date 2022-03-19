@@ -22,21 +22,21 @@ class AuthenticationControllerTest extends IntegrationTestBase {
 
     @DisplayName("Should authenticate user with correct credentials")
     @Test
-    @Sql("authenticationcontrollertest/sql/create_user.sql")
+    @Sql("shared/sql/create_user.sql")
     void shouldAuthenticateUser() {
         postUnauthenticatedJsonAndAssertStatusCodeAndBody(BASE_URL, "correct_credentials.json",200);
     }
 
     @DisplayName("Should return bad credentials when wrong password")
     @Test
-    @Sql("authenticationcontrollertest/sql/create_user.sql")
+    @Sql("shared/sql/create_user.sql")
     void shouldReturnBadCredentialsWhenWrongPassword() {
         postUnauthenticatedJsonAndAssertStatusCodeAndBody(BASE_URL, "wrong_credentials.json", 403);
     }
 
     @DisplayName("Should return bad credentials when user does not exist")
     @Test
-    @Sql("authenticationcontrollertest/sql/create_user.sql")
+    @Sql("shared/sql/create_user.sql")
     void shouldNotExist() {
         postUnauthenticatedJsonAndAssertStatusCodeAndBody(BASE_URL, "user_does_not_exist.json", 403);
     }
@@ -53,7 +53,7 @@ class AuthenticationControllerTest extends IntegrationTestBase {
 
     @ParameterizedTest
     @MethodSource("registerTestCases")
-    @Sql("authenticationcontrollertest/sql/create_user.sql")
+    @Sql("shared/sql/create_user.sql")
     public void testRegisterTestCases(HttpTestCase testCase) {
         postUnauthenticatedJsonAndAssertStatusCodeAndBody(testCase.getUrl(), testCase.getInputFilename(),
                                                           testCase.getStatusCode());

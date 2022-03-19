@@ -1,0 +1,20 @@
+{
+  "id": "{#uuid#}",
+  "name": "Quarkus",
+  "description": "Quarkus, getting started",
+  "rating": 5,
+  "url": "https://www.quarkus.io",
+  "tags": [
+    {
+      "id": "{#uuid#}",
+      "name": "Java"
+    },
+    {
+      "id": "{#uuid#}",
+      "name": "Quarkus"
+    }
+  ],
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "created_at": "{#date_time_format:iso_instant#}",
+  "updated_at": "{#date_time_format:iso_instant#}"
+}

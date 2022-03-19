@@ -23,7 +23,7 @@ public class InMemoryResourceRepository implements ResourceRepository {
     public List<Resource> findAll(UUID userId) {
         return resources.stream()
                         .filter(resource -> resource.getUserId()
-                                                 .equals(userId))
+                                                    .equals(userId))
                         .collect(Collectors.toList());
     }
 

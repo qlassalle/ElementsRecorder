@@ -11,8 +11,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
+import static com.qlassalle.elementsrecorder.unittests.adapters.FixedUUIDProvider.DEFAULT_UUID;
+import static java.util.Collections.emptySet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -38,7 +41,8 @@ public class GetResourceUseCaseTest {
     @Test
     void shouldReturnAllResourcesForUser() {
         Resource resource = generateResource();
-        Resource resource2 = new Resource(UUID.randomUUID(), "Hello World", "Hello", 5, "somewhere.com", userId);
+        Resource resource2 = new Resource(UUID.randomUUID(), "Hello World", "Hello", 5, "somewhere.com",
+                                          Set.of(UUID.randomUUID(), UUID.randomUUID()), userId);
 
         resourceRepository.save(resource);
         resourceRepository.save(resource2);
@@ -52,7 +56,8 @@ public class GetResourceUseCaseTest {
     @Test
     void shouldReturnOnlyResourcesBelongingToUser() {
         Resource resource = generateResource();
-        Resource resource2 = new Resource(UUID.randomUUID(), "Hello World", "Hello", 5, "somewhere.com", userId);
+        Resource resource2 = new Resource(UUID.randomUUID(), "Hello World", "Hello", 5, "somewhere.com", emptySet(),
+                                          userId);
 
         resourceRepository.save(resource);
         resourceRepository.save(resource2);
@@ -65,15 +70,14 @@ public class GetResourceUseCaseTest {
     @DisplayName("Should return resource by id for user")
     @Test
     void shouldReturnResourceByIdForUser() {
-        UUID resourceId = UUID.fromString("00000000-0000-0000-0000-000000000001");
-        Resource resource = generateResource(resourceId);
+        Resource resource = generateResource(DEFAULT_UUID);
         resourceRepository.save(resource);
 
-        Resource retrievedResource = getResourceUseCase.findById(resourceId, userId);
+        Resource retrievedResource = getResourceUseCase.findById(DEFAULT_UUID, userId);
 
         assertThat(retrievedResource).isEqualTo(resource);
     }
-    
+
     @DisplayName("Should throw if resource is not found")
     @Test
     void shouldThrowIfResourceIsNotFound() {
@@ -81,7 +85,7 @@ public class GetResourceUseCaseTest {
         resourceRepository.save(resource);
         UUID resourceId = UUID.randomUUID();
 
-        assertThatExceptionOfType(ResourceNotFoundException.class).isThrownBy(() -> resourceRepository.findById(resourceId, userId))
+        assertThatExceptionOfType(ResourceNotFoundException.class).isThrownBy(() -> getResourceUseCase.findById(resourceId, userId))
                                                                   .withMessage("No resource found with id " + resourceId);
     }
 
@@ -93,15 +97,15 @@ public class GetResourceUseCaseTest {
         Resource resource = generateResource(resourceId);
         resourceRepository.save(resource);
 
-        assertThatExceptionOfType(ResourceNotFoundException.class).isThrownBy(() -> resourceRepository.findById(resourceId, otherUserId))
+        assertThatExceptionOfType(ResourceNotFoundException.class).isThrownBy(() -> getResourceUseCase.findById(resourceId, otherUserId))
                                                                   .withMessage("No resource found with id " + resourceId);
     }
 
     private Resource generateResource() {
-        return new Resource(UUID.randomUUID(), "Hello World", "Hello", 5, "hello.com", userId);
+        return new Resource(UUID.randomUUID(), "Hello World", "Hello", 5, "hello.com", emptySet(), userId);
     }
 
     private Resource generateResource(UUID uuid) {
-        return new Resource(uuid, "Hello World", "Hello", 5, "hello.com", userId);
+        return new Resource(uuid, "Hello World", "Hello", 5, "hello.com", emptySet(), userId);
     }
 }

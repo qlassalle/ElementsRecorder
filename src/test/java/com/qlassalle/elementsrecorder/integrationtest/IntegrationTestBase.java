@@ -1,5 +1,6 @@
 package com.qlassalle.elementsrecorder.integrationtest;
 
+import com.ekino.oss.jcv.assertion.hamcrest.JsonMatcherBuilder;
 import com.qlassalle.elementsrecorder.infra.security.JwtUtil;
 import com.qlassalle.elementsrecorder.integrationtest.exceptions.ReadingTestFileException;
 import com.qlassalle.elementsrecorder.integrationtest.utils.ClassPathResources;
@@ -8,6 +9,7 @@ import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeAll;
 import org.postgresql.ds.PGSimpleDataSource;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -75,7 +77,7 @@ public abstract class IntegrationTestBase {
         buildAuthenticatedRequest(username).get(url)
                                            .then()
                                            .statusCode(statusCode)
-                                           .body(jsonMatcher(outputFile(outputFile)));
+                                           .body(JsonMatcherBuilder.create().mode(JSONCompareMode.STRICT).build(outputFile(outputFile)));
     }
 
     protected void givenAuthenticatedDeleteRequest(String url, String username) {

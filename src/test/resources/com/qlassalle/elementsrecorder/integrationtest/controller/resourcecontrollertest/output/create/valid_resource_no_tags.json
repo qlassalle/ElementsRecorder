@@ -1,9 +1,10 @@
 {
   "id": "{#uuid#}",
-  "name": "System design cheatsheet",
-  "description": "All system design resources explained",
-  "rating": 5,
-  "url": "https://www.systemdesigncheatsheet.com",
+  "name": "AWS lambdas",
+  "description": "Lambdas explained",
+  "rating": 2,
+  "url": "https://www.lambdaseasy.com",
+  "tags": [],
   "user_id": "00000000-0000-0000-0000-000000000001",
   "created_at": "{#date_time_format:iso_instant#}",
   "updated_at": "{#date_time_format:iso_instant#}"

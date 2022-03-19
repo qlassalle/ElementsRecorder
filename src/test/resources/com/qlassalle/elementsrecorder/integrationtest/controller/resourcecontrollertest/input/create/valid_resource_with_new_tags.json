@@ -1,0 +1,7 @@
+{
+  "name": "Quarkus",
+  "description": "Quarkus, getting started",
+  "rating": 5,
+  "url": "https://www.quarkus.io",
+  "tags": ["Quarkus", "Java"]
+}

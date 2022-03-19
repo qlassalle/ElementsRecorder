@@ -1,0 +1,28 @@
+{
+  "id": "98b8fdc6-acf2-4e46-9419-150e42d078bd",
+  "name": "Polygon",
+  "description": "Layer 1 blockchain",
+  "url": "https://www.polygon.com",
+  "rating": 5,
+  "tags": [
+    {
+      "id": "1a734472-d72d-4abd-bc43-21de17bbb9c0",
+      "name": "Blockchain"
+    },
+    {
+      "id": "4da58133-8565-4a90-b1a6-6fba50af6602",
+      "name": "Crypto"
+    },
+    {
+      "id": "f13400f1-b93d-40c9-ad5b-c3260550d44e",
+      "name": "Eth killer"
+    },
+    {
+      "id": "31aafd17-8515-43f2-b6b5-87805a30dc20",
+      "name": "Layer 1"
+    }
+  ],
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "created_at": "2022-01-01T18:00:00Z",
+  "updated_at": "2022-01-01T18:00:00Z"
+}
