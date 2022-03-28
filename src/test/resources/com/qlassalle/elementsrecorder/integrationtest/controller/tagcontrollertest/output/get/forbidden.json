@@ -1,0 +1,6 @@
+{
+  "timestamp": "{#date_time_format:iso_instant#}",
+  "status": 403,
+  "error": "Forbidden",
+  "path": "/tags"
+}

@@ -24,4 +24,11 @@ public class TagMapper {
                   .updatedAt(tagEntity.getUpdatedAt())
                   .build();
     }
+
+    public Tag mapMinimalInfo(TagEntity tagEntity) {
+        return Tag.builder()
+                  .id(tagEntity.getId())
+                  .name(tagEntity.getName())
+                  .build();
+    }
 }

@@ -73,11 +73,25 @@ public abstract class IntegrationTestBase {
                       .body(jsonMatcher(outputFile(filename)));
     }
 
-    protected void givenAuthenticatedGetRequest(String url, String username, int statusCode, String outputFile) {
+    protected void givenAuthenticatedGetRequest(String url, String username, int statusCode, String response) {
         buildAuthenticatedRequest(username).get(url)
                                            .then()
                                            .statusCode(statusCode)
-                                           .body(JsonMatcherBuilder.create().mode(JSONCompareMode.STRICT).build(outputFile(outputFile)));
+                                           .body(JsonMatcherBuilder.create().mode(JSONCompareMode.STRICT).build(outputFile(response)));
+    }
+
+    protected void givenAuthenticatedGetRequestWithBody(String url, String username, int statusCode, String body) {
+        buildAuthenticatedRequest(username).get(url)
+                                           .then()
+                                           .statusCode(statusCode)
+                                           .body(JsonMatcherBuilder.create().mode(JSONCompareMode.STRICT).build(body));
+    }
+
+    protected void givenUnauthenticatedGetRequest(String url, int statusCode, String response) {
+        buildRequest().get(url)
+                      .then()
+                      .statusCode(statusCode)
+                      .body(JsonMatcherBuilder.create().mode(JSONCompareMode.STRICT).build(outputFile(response)));
     }
 
     protected void givenAuthenticatedDeleteRequest(String url, String username) {

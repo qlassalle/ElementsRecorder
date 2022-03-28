@@ -4,12 +4,12 @@ import com.qlassalle.elementsrecorder.adapters.entities.mappers.TagMapper;
 import com.qlassalle.elementsrecorder.domain.model.Tag;
 import com.qlassalle.elementsrecorder.domain.model.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -26,8 +26,11 @@ public class JpaTagRepositoryAdapter implements TagRepository {
     }
 
     @Override
-    public Set<Tag> findAll() {
-        throw new NotImplementedException("Coming soon!");
+    public List<Tag> findAll(UUID userId) {
+        var tags = jpaTagRepository.findAllByUserIdOrderByName(userId);
+        return tags.stream()
+                   .map(tagMapper::mapMinimalInfo)
+                   .collect(Collectors.toList());
     }
 
     @Override

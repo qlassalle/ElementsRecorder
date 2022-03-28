@@ -3,14 +3,12 @@ package com.qlassalle.elementsrecorder.unittests.adapters;
 import com.qlassalle.elementsrecorder.domain.model.Tag;
 import com.qlassalle.elementsrecorder.domain.model.repository.TagRepository;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryTagRepository implements TagRepository {
 
-    private final Set<Tag> tags = new HashSet<>();
+    private final List<Tag> tags = new ArrayList<>();
 
     @Override
     public Tag save(Tag tag) {
@@ -19,12 +17,18 @@ public class InMemoryTagRepository implements TagRepository {
     }
 
     @Override
-    public Set<Tag> findAll() {
-        return tags;
+    public List<Tag> findAll(UUID userId) {
+        return tags.stream()
+                   .filter(tag -> tag.userId().equals(userId))
+                   .collect(Collectors.toList());
     }
 
     @Override
     public Optional<Tag> findByNameAndUser(String name, UUID userId) {
         return tags.stream().filter(tag -> tag.name().equals(name) && tag.userId().equals(userId)).findFirst();
+    }
+
+    public int getTagsSize() {
+        return tags.size();
     }
 }

@@ -1,7 +1,6 @@
 package com.qlassalle.elementsrecorder.unittests.usecases.tag;
 
 import com.qlassalle.elementsrecorder.domain.model.Tag;
-import com.qlassalle.elementsrecorder.domain.model.repository.TagRepository;
 import com.qlassalle.elementsrecorder.domain.usecases.tag.GetOrCreateTagUseCase;
 import com.qlassalle.elementsrecorder.unittests.adapters.FixedUUIDProvider;
 import com.qlassalle.elementsrecorder.unittests.adapters.InMemoryTagRepository;
@@ -11,13 +10,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import static com.qlassalle.elementsrecorder.unittests.adapters.FixedUUIDProvider.*;
+import static com.qlassalle.elementsrecorder.unittests.adapters.FixedUUIDProvider.DEFAULT_UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GetOrCreateTagUseCaseTest {
 
     private GetOrCreateTagUseCase getOrCreateTagUseCase;
-    private TagRepository tagRepository;
+    private InMemoryTagRepository tagRepository;
 
     @BeforeEach
     void setUp() {
@@ -34,7 +33,7 @@ public class GetOrCreateTagUseCaseTest {
         assertThat(createdTag).usingRecursiveComparison()
                               .ignoringFields("createdAt", "updatedAt")
                               .isEqualTo(expectedTag);
-        assertThat(tagRepository.findAll()).hasSize(1);
+        assertThat(tagRepository.findAll(DEFAULT_UUID)).hasSize(1);
     }
 
     @DisplayName("Should not save tag if it already exists")
@@ -46,7 +45,7 @@ public class GetOrCreateTagUseCaseTest {
         var foundTag = getOrCreateTagUseCase.getOrCreate("Angular", DEFAULT_UUID);
 
         assertThat(foundTag).isEqualTo(savedTag);
-        assertThat(tagRepository.findAll()).hasSize(1);
+        assertThat(tagRepository.findAll(DEFAULT_UUID)).hasSize(1);
     }
 
     @DisplayName("Should save tag if it already exists but for another user")
@@ -56,6 +55,6 @@ public class GetOrCreateTagUseCaseTest {
         tagRepository.save(savedTag);
 
         getOrCreateTagUseCase.getOrCreate("Angular", DEFAULT_UUID);
-        assertThat(tagRepository.findAll()).hasSize(2);
+        assertThat(tagRepository.getTagsSize()).isEqualTo(2);
     }
 }
