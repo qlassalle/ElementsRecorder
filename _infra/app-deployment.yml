@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: elements-recorder-api
+  name: elements-recorder-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elements-recorder-api
+  strategy: { }
+  template:
+    metadata:
+      labels:
+        app: elements-recorder-api
+    spec:
+      containers:
+        - name: elements-recorder-api
+          image: qlassalle/elements-recorder:a9c568
+          resources: {}
+          env:
+            - name: SPRING_DATASOURCE_IP
+              value: elements-recorder-db-ip
+            - name: SPRING_DATASOURCE_PORT
+              value: "5432"
+            - name: SPRING_DATASOURCE_DB_NAME
+              value: elements_recorder_db
+            - name: SPRING_DATASOURCE_USERNAME
+              value: elements_recorder_app
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: root
+            - name: JWT_SECRET
+              value: bestsecretever
+      imagePullSecrets:
+        - name: regcred
