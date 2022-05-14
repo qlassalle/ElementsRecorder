@@ -8,23 +8,29 @@ To ensure everything's working properly, run
 * `./mvnw test`
 
 # Infrastructure
-![](infra.png)
+Docker images are stored in a private registry on the raspberry. It's not secured at the moment, so we have to use the `insecure-registry` flag.
 
-The front and the back of this application run inside containers. Docker images are pushed to ECR and task definitions 
-retrieve them. 
-The backend app is exposed on port 8088 and is reached through a load balancer. The backend is not internet facing.
-The frontend app is exposed on port 80 and is accessible through internet. 
-A request goes through the following layers:
-* client hits EC2 instance's IP and sees the web app
-* the web app performs a request to the API Gateway. API Gateway is internet facing.
-* API Gateway forwards the request to the ALB thanks to a VPC private link. The VPC private link allows the API gateway 
-to forward request to the ALB as it is not internet facing and only exposes port 8087. A security group rule ensure the 
-ALB can only be hit by the API gateway.
-* ALB forwards request to backend
+If you have a running minikube cluster, delete it.
 
-# How to run
-Locally, you can simply run the backend with a database:
-`docker-compose --file docker-compose-local.yml up --build [--force-recreate --no-deps]`
+`minkube` should be started with this tag: `mk start --insecure-registry "192.168.1.21/32"`
+
+## Raspberry setup
+* Use a 64 bit image: https://www.raspberrypi.com/software/operating-systems/#raspberry-pi-os-64-bit
+* Install docker
+* Create a registry: `docker run -d -p 5000:5000 --restart=always --name registry registry:2` https://docs.docker.com/registry/deploying/
+* Build image on local machine, tag it and push it to the registry:
+```shell
+docker build -t 192.168.1.21:5000/elements-recorder-api .
+docker push 192.168.1.21:5000/elements-recorder-api
+```
+* Install k3s (pay attention to a message saying something about adding `...memory...` to `/boot/cmdline.txt` if you're on a raspberry)
+* create a dedicated namespace on k3s
+* apply db-pv and db-svc files: `k apply -f db-pv.yml`
+* create the database
+  * enter the container hosting the db: `k exec -ti pod-name -- bash`
+  * connect to the database: `psql -h localhost -p 5432 -U elements_recorder_app -W`
+  * create the database: `create database elements_recorder_db`
+* apply app-deployment: `k apply -f app-deployment.yml`
 
 # Docker troubleshooting
 If you consistently see that your changes are not reported to your containers, consider deleting all the images and run the following command 

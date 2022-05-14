@@ -1,1 +1,1 @@
-docker-compose --file docker-compose-dev.yml up
+docker-compose --file docker-compose-dev.yml up --build --force-recreate --remove-orphan
