@@ -3,8 +3,10 @@ kind: Service
 metadata:
   name: elements-recorder-api-ip
 spec:
+  type: NodePort
   ports:
     - port: 8080
       targetPort: 8080
+      nodePort: 31111
   selector:
     app: elements-recorder-api
