@@ -89,6 +89,16 @@ public class ResourceControllerTest extends IntegrationTestBase {
         assertThat(tagResourceTable).hasNumberOfRows(0);
     }
 
+    @DisplayName("Should create a resource with a really long name")
+    @Test
+    void shouldCreateAResourceWithAReallyLongName() {
+        givenAuthenticatedPostJsonRequest(BASE_URL, USERNAME, "create/valid_resource_long_name.json")
+                .statusCode(201)
+                .body(jsonMatcher(outputFile("create/valid_resource_long_name.json")));
+
+        assertThat(tagResourceTable).hasNumberOfRows(0);
+    }
+
     @DisplayName("Should get all resources for user")
     @Test
     @Sql({"shared/sql/create_user.sql", "resourcecontrollertest/sql/create_resources_with_and_without_tags.sql"})

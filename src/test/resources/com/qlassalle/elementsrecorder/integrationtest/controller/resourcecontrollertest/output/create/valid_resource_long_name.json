@@ -1,0 +1,11 @@
+{
+  "id": "{#uuid#}",
+  "name": "Vous ne verrez plus les tests unitaires de la même manière, et même peut être autrement …………",
+  "description": "A good article about unit test (baguette only)",
+  "rating": 5,
+  "url": "https://medium.com/wealcomecompany/vous-ne-verrez-plus-les-tests-unitaires-de-la-meme-maniere-7b0f92c460cb",
+  "tags": [],
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "created_at": "{#date_time_format:iso_instant#}",
+  "updated_at": "{#date_time_format:iso_instant#}"
+}
