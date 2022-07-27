@@ -38,6 +38,13 @@ If you consistently see that your changes are not reported to your containers, c
 docker-compose up --build --force-recreate
 ```
 
+# Publish a new version
+* `docker build --no-cache -t 192.168.1.21:5000/elements-recorder-api .`
+* `docker tag 192.168.1.21:5000/elements-recorder-api:latest 192.168.1.21:5000/elements-recorder-api:3b4e07b3`
+where `3b4e07b3` is the latest commit
+* `docker push 192.168.1.21:5000/elements-recorder-api:3b4e07b3`
+* edit `_infra/app-deployment.yml` deployed in your environment with the path to the latest image
+
 # Access local db
 * `sudo -u postgres -i`
 * `\l` to list databases
