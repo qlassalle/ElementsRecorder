@@ -50,6 +50,15 @@ where `3b4e07b3` is the latest commit
 * `\l` to list databases
 * Don't forget the `;` at the end of your queries!!
 
+# Backup prod db
+### In the Raspberry
+* Connect to db pod: `k exec -it elements-recorder-db-757fbf45ff-jsmd2 -- bash`
+* `cd` to the folder of your choice `cd /home`
+* Run the backup command `pg_dump elements_recorder_db -U elements_recorder_app > db.sql`
+* Copy the dump from the pod to the Raspberry: `k cp elements-recorder-db-757fbf45ff-jsmd2:home/db.sql /db.sql`
+### On your computer
+* Copy the file from the Raspberry to your local machine: `scp qlassalle@192.168.1.21:/home/qlassalle/ElementsRecorder/db.sql .`
+
 # Features to add
 * Rating should have a maximum
 * Expired JWT should not throw any exception
